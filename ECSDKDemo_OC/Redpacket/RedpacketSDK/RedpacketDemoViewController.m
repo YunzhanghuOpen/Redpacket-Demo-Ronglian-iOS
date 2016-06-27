@@ -128,7 +128,12 @@ static NSString *const RedpacketTakenMessageTipCellSenderIdentifier = @"Redpacke
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     ECMessage * message = [self.messageArray objectAtIndex:indexPath.row];
     if ([message isKindOfClass:[ECMessage class]] && [message isRedpacket]) {
-        return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
+        if ([message isRedpacketOpenMessage]) {
+            return [RedpacketTakenMessageTipCell getHightOfCellViewWith:message.messageBody];
+        }else{
+            return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
+        }
+
     }
     
 //    struct objc_super sp;
