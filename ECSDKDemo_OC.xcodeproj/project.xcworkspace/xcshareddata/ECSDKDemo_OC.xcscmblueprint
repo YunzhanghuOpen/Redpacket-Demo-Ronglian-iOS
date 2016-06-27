@@ -1,30 +1,30 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3F58C4E82E6139A60C566C44B90D6359DE192FF8",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "82CBDC087A6F613CAD4621A5793B220E3F46D112" : 0,
-    "3F58C4E82E6139A60C566C44B90D6359DE192FF8" : 0
+    "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2" : 0,
+    "82CBDC087A6F613CAD4621A5793B220E3F46D112" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FDD1EB47-DC38-42A1-BC16-AEC74949950E",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "82CBDC087A6F613CAD4621A5793B220E3F46D112" : "..\/..\/redpacketUI\/yzh-redpacket",
-    "3F58C4E82E6139A60C566C44B90D6359DE192FF8" : "ECSDKDemo_OC\/"
+    "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2" : "ECSDKDemo_OC\/",
+    "82CBDC087A6F613CAD4621A5793B220E3F46D112" : "..\/..\/redpacketUI\/yzh-redpacket"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "ECSDKDemo_OC",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ECSDKDemo_OC.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:YunzhanghuOpen\/RongLianyun.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3F58C4E82E6139A60C566C44B90D6359DE192FF8"
-    },
-    {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:YunzhanghuOpen\/yzh-redpacket.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82CBDC087A6F613CAD4621A5793B220E3F46D112"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:YunzhanghuOpen\/RongLianyun.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2"
     }
   ]
 }

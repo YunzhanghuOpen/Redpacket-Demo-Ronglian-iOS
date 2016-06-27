@@ -9,6 +9,7 @@
 #import "DeviceDelegateHelper.h"
 #import "EmojiConvertor.h"
 #import "UIImageView+WebCache.h"
+#import "RedpacketMessage.h"
 
 @interface DeviceDelegateHelper()
 @property(atomic, assign) NSUInteger offlineCount;
@@ -216,13 +217,30 @@
         NSTimeInterval tmp =[date timeIntervalSince1970]*1000;
         message.timestamp = [NSString stringWithFormat:@"%lld", (long long)tmp];
     }
-    
+
+#pragma mark 消息与红包插件消息转换与处理
+    if ([message isRedpacketOpenMessage])
+    {
+        message.isRead = YES;
+        if (message.isGroup) {
+            
+            if ([message.rpModel.redpacketSender.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+                [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
+            }
+        }else
+        {
+            [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
+        }
+        
+    }else
+    {
     [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
-    
-    //同步过来的发送消息不播放提示音
-    if (message.messageState == ECMessageState_Receive) {
-        [self playRecMsgSound:message.sessionId];
+        //同步过来的发送消息不播放提示音
+        if (message.messageState == ECMessageState_Receive) {
+            [self playRecMsgSound:message.sessionId];
+        }
     }
+   
     
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
     
