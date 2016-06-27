@@ -47,7 +47,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
-                [self.redpacketControl presentRedPacketMoreViewControllerWithCount:(int)members.count];
+                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMemberArray:members];
             }
         }];
         
