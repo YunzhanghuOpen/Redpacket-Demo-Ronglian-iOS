@@ -219,11 +219,10 @@
     }
 
 #pragma mark 消息与红包插件消息转换与处理
-    if ([message isRedpacketOpenMessage])
+    if ([message isRedpacketOpenMessage]&&[message isRedpacket])
     {
         message.isRead = YES;
         if (message.isGroup) {
-            
             if ([message.rpModel.redpacketSender.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                 [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
             }
