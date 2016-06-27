@@ -100,6 +100,7 @@
         [[DeviceDBHelper sharedInstance] openDataBasePath:[DemoGlobalClass sharedInstance].userName];
         self.mainView = [[MainViewController alloc] init];
         rootView = [[UINavigationController alloc] initWithRootViewController:_mainView];
+#pragma mark 红包-------------用于注册红包SDK
         [RedpacketConfig config];
     } else {
         

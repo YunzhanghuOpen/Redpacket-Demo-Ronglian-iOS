@@ -181,6 +181,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onConnected object:error];
             if (error.errorCode == ECErrorType_NoError) {
                 [DemoGlobalClass sharedInstance].userName = userName;
+#pragma mark 红包-------------用于注册红包SDK
                 [RedpacketConfig config];
             }
             

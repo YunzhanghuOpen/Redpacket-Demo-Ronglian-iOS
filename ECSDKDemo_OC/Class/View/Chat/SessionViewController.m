@@ -160,7 +160,8 @@ extern CGFloat NavAndBarHeight;
         [self.mainView pushViewController:viewController animated:YES];
         
     } else {
-#pragma mark 红包-------------  ChatViewController 修改为 RedpacketDemoViewController
+
+#pragma mark 红包-------------修改聊天界面入口
         UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
         SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
         if ([viewController respondsToSelector:aSelector]) {
