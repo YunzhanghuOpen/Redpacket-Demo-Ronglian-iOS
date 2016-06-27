@@ -12,19 +12,14 @@
 
 #define Redpacket_Message_Font_Size 14
 #define Redpacket_SubMessage_Font_Size 12
-#define Redpacket_Background_Extra_Height 25
 #define Redpacket_SubMessage_Text NSLocalizedString(@"查看红包", @"查看红包")
 #define Redpacket_Label_Padding 2
 
 #define REDPACKET_BUNDLE(name) @"RedpacketCellResource.bundle/" name
 
-//// 下面的常量来自 XHMessageTableViewCell.m
+
 static const CGFloat kXHAvatorPaddingX = 8.0;
-//static const CGFloat kXHAvatorPaddingY = 15;
-////气泡底部距离ContentView底部的距离
-//static const CGFloat kXHBubbleMessageViewTopPadding = 0;
-//static const CGFloat kXHBubbleMessageViewBottomPadding = 8;
-//static const CGFloat kXHPeerNameLabelHeight = 20.0f;
+
 
 #define kPeerNameZoneHeight(displayPeerName)  (displayPeerName ? kXHPeerNameLabelHeight : 0)
 
@@ -46,9 +41,8 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 - (instancetype)initWithIsSender:(BOOL)isSender reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithIsSender:isSender reuseIdentifier:reuseIdentifier];
     if (self) {
-//        self.message = message;
+        
         self.messageContentView = self.contentView;
-//        self.messageBubbleView.hidden = YES;
         
         // 设置背景
         self.bubbleBackgroundView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -176,9 +170,6 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     [super layoutSubviews];
     CGFloat bubbleX = 0.0f;
     
-    NSLog(@"%@---%@----%@",self.message.rpModel.redpacketSender.userId,self.message.rpModel.redpacketReceiver.userId,self.message.rpModel.currentUser.userId);
-    
-    
     if (self.isSender) {
         bubbleX = CGRectGetMinX(self.portraitImg.frame) - 198 - kXHAvatorPaddingX;
     } else {
@@ -207,25 +198,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 //    CGSize bubbleSize = CGSizeMake(198, 94);
     return 110;
 }
-//
-//+ (CGSize)getBubbleBackgroundViewSize:(RedpacketMessage *)message {
-//    return [[self class] getBubbleSize];
-//}
-//
-//+ (CGFloat)calculateCellHeightWithMessage:(id<XHMessageModel>)message
-//                        displaysTimestamp:(BOOL)displayTimestamp
-//                         displaysPeerName:(BOOL)displayPeerName
-//{
-//    return [self getBubbleSize].height + 55;
-//}
-//
-//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-//    return NO;
-//}
-//
-//- (void)longPressGestureRecognizerHandle:(UILongPressGestureRecognizer *)longPressGestureRecognizer {
-//   
-//}
+
 
 
 @end
