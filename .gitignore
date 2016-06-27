@@ -1,0 +1,39 @@
+gnore_global
+####################################
+######## OS generated files ########
+####################################
+.DS_Store
+.DS_Store?
+*.swp
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+####################################
+############# Packages #############
+####################################
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Redpacket
+EaseMobSDK/*
+HyphenateSDK/*
+ECSDKDemo_OC/Redpacket/RedpacketLib/*
+ECSDKDemo_OC/Resources/*
+ECSDKDemo_OC/Yuntx_Fullib_SDK/*
+ECSDKDemo_OC/thirdparty/*
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+
