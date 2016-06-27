@@ -19,18 +19,15 @@
 #import "DeviceChatHelper.h"
 #import "ChatViewCell.h"
 #import "RedpacketMessage.h"
-#import <objc/runtime.h>
-#import <objc/message.h>
 #pragma mark -
 
 #pragma mark - 红包相关的宏定义
 #define REDPACKET_BUNDLE(name) @"RedpacketCellResource.bundle/" name
 #pragma mark -
 
-static NSString *const RedpacketMessageCellReceiverIdentifier = @"RedpacketMessageCellReceiverIdentifier";
-static NSString *const RedpacketMessageCellSenderIdentifier = @"RedpacketMessageCellSenderIdentifier";
-static NSString *const RedpacketTakenMessageTipCellReceiverIdentifier = @"RedpacketTakenMessageTipCellReceiverIdentifier";
-static NSString *const RedpacketTakenMessageTipCellSenderIdentifier = @"RedpacketTakenMessageTipSenderCellIdentifier";
+static NSString *const RedpacketMessageCellIdentifier = @"RedpacketMessageCellIdentifier";
+static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTakenMessageTipCellIdentifier";
+
 
 @interface RedpacketDemoViewController () <RedpacketCellDelegate,RedpacketCellDelegate>
 
@@ -70,6 +67,7 @@ static NSString *const RedpacketTakenMessageTipCellSenderIdentifier = @"Redpacke
     //  需要当前聊天窗口的会话ID
     RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
     userInfo.userId = self.sessionId;
+    userInfo.isGroup = isGroup;
     _redpacketControl.converstationInfo = userInfo;
     
     __weak typeof(self) weakSelf = self;
@@ -143,11 +141,12 @@ static NSString *const RedpacketTakenMessageTipCellSenderIdentifier = @"Redpacke
     ECMessage * message = [self.messageArray objectAtIndex:indexPath.row];
     BOOL isSender = (message.messageState==ECMessageState_Receive?NO:YES);
     NSInteger fileType = message.messageBody.messageBodyType;
-    NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketMessageCellReceiverIdentifier,(int)fileType];
+    
     
     if ([message isKindOfClass:[ECMessage class]] && [message isRedpacket]) {
         
          if ([message isRedpacketOpenMessage]) {
+             NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketMessageCellIdentifier,(int)fileType];
              RedpacketTakenMessageTipCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
              if (!cell) {
                  cell = [[RedpacketTakenMessageTipCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
@@ -155,21 +154,16 @@ static NSString *const RedpacketTakenMessageTipCellSenderIdentifier = @"Redpacke
              }
              return cell;
          }else{
-             
-         NSString *cellRedpacketMessageidentifier = @"cellRedpacketMessageidentifier";
-         RedpacketMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:cellRedpacketMessageidentifier];
-         if (!cell) {
-             cell = [[RedpacketMessageCell alloc]initWithIsSender:isSender reuseIdentifier:cellRedpacketMessageidentifier];
-             [cell bubbleViewWithData:message];
-             cell.redpacketDelegate = self;
-         }
-             return cell;
-         }
-    }
-//    struct objc_super sp;
-//    sp.receiver = self;
-//    sp.super_class = object_getClass(class_getSuperclass(class_getSuperclass(self.class)));
-//    return ((id (*)(struct objc_super *super, SEL op, ...))objc_msgSendSuper)(&sp, @selector(tableView:cellForRowAtIndexPath:),tableView,indexPath);
+             NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketTakenMessageTipCellIdentifier,(int)fileType];
+             RedpacketMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
+             if (!cell) {
+                 cell = [[RedpacketMessageCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                 [cell bubbleViewWithData:message];
+                 cell.redpacketDelegate = self;
+             }
+                 return cell;
+             }
+        }
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 - (void)redpacketCell:(RedpacketMessageCell *)cell didTap:(ECMessage *)message{
