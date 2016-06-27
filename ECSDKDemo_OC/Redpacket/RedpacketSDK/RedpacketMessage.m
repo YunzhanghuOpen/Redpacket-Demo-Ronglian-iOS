@@ -13,13 +13,14 @@
     [self willChangeValueForKey:@"rpModel"];
     objc_setAssociatedObject(self, @"RedpacketMessageModel", rpModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     NSDictionary * rp = [rpModel redpacketMessageModelToDic];
-    if (!rp) return;
-    NSError * error;
-    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
-    if (!error) {
-        NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        self.userData = rpString;
-    };
+    if (rp){
+        NSError * error;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
+        if (!error) {
+            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+            self.userData = rpString;
+        };
+    }
     [self didChangeValueForKey:@"rpModel"];
 }
 - (RedpacketMessageModel *)rpModel{
@@ -27,7 +28,9 @@
 }
 
 - (BOOL)isRedpacket{
-    
+    if (self.rpModel) {
+        return YES;
+    }
     if (self.userData) {
         NSError * error;
         NSString * userString = self.userData;
