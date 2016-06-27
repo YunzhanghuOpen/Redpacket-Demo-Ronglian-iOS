@@ -222,6 +222,7 @@
             [alert show];
             return;
         } else {
+#pragma mark 红包-------------修改聊天界面入口
             UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
             SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
             if ([viewController respondsToSelector:aSelector]) {
@@ -280,7 +281,7 @@
                     
                     [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
                     if(error.errorCode ==ECErrorType_NoError) {
-                        
+#pragma mark 红包-------------修改聊天界面入口
                         UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
                         SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
                         if ([viewController respondsToSelector:aSelector]) {
@@ -312,7 +313,7 @@
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if(error.errorCode ==ECErrorType_NoError) {
-                
+#pragma mark 红包-------------修改聊天界面入口
                 [DemoGlobalClass sharedInstance].groupMemberArray = [NSMutableArray arrayWithArray:_selectedArray];
                 UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
                 SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");

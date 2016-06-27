@@ -278,6 +278,7 @@
                 [DemoGlobalClass sharedInstance].userName = nil;
                 
                 [DemoGlobalClass sharedInstance].isLogin = NO;
+#pragma mark 红包-------------用于退出红包SDK
                 [RedpacketConfig logout];
                 //为了页面的跳转，使用了该错误码，用户在使用过程中，可以自定义消息，或错误码值
                 [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onConnected object:[ECError errorWithCode:10]];

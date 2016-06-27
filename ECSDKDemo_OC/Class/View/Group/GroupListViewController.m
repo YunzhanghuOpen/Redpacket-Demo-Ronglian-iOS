@@ -112,7 +112,7 @@ const char KalertViewGroupMessage;
         objc_setAssociatedObject(view, &KalertViewGroupMessage, group, OBJC_ASSOCIATION_RETAIN);
         [view show];
     }
-#warning 红包修改
+#pragma mark 红包-------------修改聊天界面入口
     UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
     SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
     if ([viewController respondsToSelector:aSelector]) {

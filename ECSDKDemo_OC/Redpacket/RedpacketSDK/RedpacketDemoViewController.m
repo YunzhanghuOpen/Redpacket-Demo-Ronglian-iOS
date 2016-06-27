@@ -139,31 +139,31 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ECMessage * message = [self.messageArray objectAtIndex:indexPath.row];
-    BOOL isSender = (message.messageState==ECMessageState_Receive?NO:YES);
-    NSInteger fileType = message.messageBody.messageBodyType;
-    
-    
-    if ([message isKindOfClass:[ECMessage class]] && [message isRedpacket]) {
-        
-         if ([message isRedpacketOpenMessage]) {
-             NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketMessageCellIdentifier,(int)fileType];
-             RedpacketTakenMessageTipCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
-             if (!cell) {
-                 cell = [[RedpacketTakenMessageTipCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
-                 [cell bubbleViewWithData:message];
-             }
-             return cell;
-         }else{
-             NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketTakenMessageTipCellIdentifier,(int)fileType];
-             RedpacketMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
-             if (!cell) {
-                 cell = [[RedpacketMessageCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
-                 [cell bubbleViewWithData:message];
-                 cell.redpacketDelegate = self;
-             }
-                 return cell;
-             }
+    if ([message isKindOfClass:[ECMessage class]]) {
+        BOOL isSender = (message.messageState==ECMessageState_Receive?NO:YES);
+        NSInteger fileType = message.messageBody.messageBodyType;
+        if ([message isRedpacket]) {
+            
+            if ([message isRedpacketOpenMessage]) {
+                NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketMessageCellIdentifier,(int)fileType];
+                RedpacketTakenMessageTipCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
+                if (!cell) {
+                    cell = [[RedpacketTakenMessageTipCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                    [cell bubbleViewWithData:message];
+                }
+                return cell;
+            }else{
+                NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketTakenMessageTipCellIdentifier,(int)fileType];
+                RedpacketMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
+                if (!cell) {
+                    cell = [[RedpacketMessageCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                    [cell bubbleViewWithData:message];
+                    cell.redpacketDelegate = self;
+                }
+                return cell;
+            }
         }
+    }
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 - (void)redpacketCell:(RedpacketMessageCell *)cell didTap:(ECMessage *)message{
