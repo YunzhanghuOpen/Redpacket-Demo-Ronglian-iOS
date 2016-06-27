@@ -46,12 +46,17 @@ UserState userInputState;
 @property (nonatomic, strong) NSMutableArray* messageArray;
   ```
 
-  同时实现UITableView协议
+  同时在.h暴露UITableView协议
 
   ```objc
  <UITableViewDelegate,UITableViewDataSource>
  
   ```
+  增加红包入口
+  ```objc
+  -(void)createMoreView 
+  ```
+  
 
 4. 添加红包功能
     
@@ -61,7 +66,7 @@ UserState userInputState;
 
        (1) 注册消息显示 Cell
        (2) 设置红包插件界面
-       (3) 设置红包功能相关的参数
+       (3) 设置红包功能相关的参数
        (4) 设置红包接收用户信息
        (5) 设置红包 SDK 功能回调
 
