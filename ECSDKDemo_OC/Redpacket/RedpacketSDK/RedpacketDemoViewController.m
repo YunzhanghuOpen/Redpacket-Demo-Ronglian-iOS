@@ -29,8 +29,10 @@ static NSString *const RedpacketMessageCellIdentifier = @"RedpacketMessageCellId
 static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTakenMessageTipCellIdentifier";
 
 
-@interface RedpacketDemoViewController () <RedpacketCellDelegate,RedpacketCellDelegate>
-
+@interface RedpacketDemoViewController () <RedpacketCellDelegate,RedpacketCellDelegate,RedpacketViewControlDelegate>
+{
+    NSArray *_members;
+}
 @property (nonatomic, strong, readwrite) RedpacketViewControl *redpacketControl;
 
 @end
@@ -48,6 +50,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
                 [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMemberArray:members];
+                _members = members;
             }
         }];
         
@@ -57,13 +60,14 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     /**
      红包功能的控制器， 产生用户单击红包后的各种动作
      */
     _redpacketControl = [[RedpacketViewControl alloc] init];
     //  需要当前的聊天窗口
     _redpacketControl.conversationController = self;
+    _redpacketControl.delegate = self;
     //  需要当前聊天窗口的会话ID
     RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
     userInfo.userId = self.sessionId;
@@ -101,7 +105,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     message.rpModel = redpacket;
     
     ECMessage* sendMessage = [[DeviceChatHelper sharedInstance] sendMessage:message];;
-
+    
     [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:sendMessage];
     
@@ -131,7 +135,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         }else{
             return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
         }
-
+        
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
@@ -149,17 +153,17 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
                 RedpacketTakenMessageTipCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
                 if (!cell) {
                     cell = [[RedpacketTakenMessageTipCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
-                    [cell bubbleViewWithData:message];
                 }
+                [cell bubbleViewWithData:message];
                 return cell;
             }else{
                 NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"issender":@"isreceiver",RedpacketTakenMessageTipCellIdentifier,(int)fileType];
                 RedpacketMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
                 if (!cell) {
                     cell = [[RedpacketMessageCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
-                    [cell bubbleViewWithData:message];
                     cell.redpacketDelegate = self;
                 }
+                [cell bubbleViewWithData:message];
                 return cell;
             }
         }
@@ -170,6 +174,44 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     if(RedpacketMessageTypeRedpacket == message.rpModel.messageType) {
         [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
     }
+}
+
+- (NSArray *)groupMemberList
+{
+    NSMutableArray *groupMemberList = [[NSMutableArray alloc]init];
+    for (ECGroupMember *member in _members) {
+        RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+        userInfo.userId = member.memberId;//可唯一标识用户的ID
+        userInfo.userNickname = member.display;//用户昵称
+        userInfo.userAvatar = nil; //用户头像地址
+        if ([userInfo.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+            
+        }else{
+            [groupMemberList addObject:userInfo];
+        }
+    }
+    return groupMemberList;
+}
+
+// 要在此处根据userID获得用户昵称,和头像地址
+- (RedpacketUserInfo *)profileEntityWith:(NSString *)userId
+{
+    RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+    //    UserProfileEntity *profileEntity = [[UserProfileManager sharedInstance] getUserProfileByUsername:userId];
+    //    if (profileEntity) {
+    //        if (profileEntity.nickname && profileEntity.nickname.length > 0) {
+    //
+    //            userInfo.userNickname = profileEntity.nickname;
+    //
+    //        } else {
+    //            userInfo.userNickname = userId;
+    //        }
+    //    } else {
+    //        userInfo.userNickname = userId;
+    //    }
+    //    userInfo.userAvatar = profileEntity.imageUrl;
+    //    userInfo.userId = userId;
+    return userInfo;
 }
 
 @end
