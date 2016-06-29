@@ -126,6 +126,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     rt.origin = CGPointMake(165, 75);
     rt.size = CGSizeMake(21, 14);
     self.orgIconView.frame = rt;
+    [self.fromId removeFromSuperview];//名字隐藏
 
 }
 

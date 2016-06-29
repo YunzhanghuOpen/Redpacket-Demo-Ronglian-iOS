@@ -93,7 +93,7 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
     RedpacketUserInfo *user = [[RedpacketUserInfo alloc] init];
     DemoGlobalClass * selfUser = [DemoGlobalClass sharedInstance];
     user.userId = [selfUser userName];
-    user.userNickname = [selfUser userName];
+    user.userNickname = [selfUser nickName];
     user.userAvatar = nil;
     return user;
 }

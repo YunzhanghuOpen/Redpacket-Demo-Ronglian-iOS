@@ -222,6 +222,7 @@
     if ([message isRedpacketOpenMessage]&&[message isRedpacket])
     {
         message.isRead = YES;
+        message.messageState = ECMessageState_SendSuccess;
         if (message.isGroup) {
             if ([message.rpModel.redpacketSender.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                 [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
