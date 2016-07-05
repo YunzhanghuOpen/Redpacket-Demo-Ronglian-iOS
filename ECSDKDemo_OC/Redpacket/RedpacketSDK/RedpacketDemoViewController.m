@@ -100,7 +100,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         [[DeviceChatHelper sharedInstance] sendUserState:UserState_None to:self.sessionId];
     }
     
-    ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:@"红包消息"];
+    ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:[NSString stringWithFormat:@"[容联云红包]%@",redpacket.redpacket.redpacketGreeting]];
     ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
     message.rpModel = redpacket;
     
@@ -170,9 +170,27 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     }
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
+
 - (void)redpacketCell:(RedpacketMessageCell *)cell didTap:(ECMessage *)message{
     if(RedpacketMessageTypeRedpacket == message.rpModel.messageType) {
-        [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
+        
+        message.rpModel.redpacketSender.userNickname = message.from;//根据需求显示，拆红包界面的发送者用户名
+        message.rpModel.redpacketSender.userAvatar  = nil;          //根据需求显示，拆红包界面的发送整的用户头像
+        
+        if (message.rpModel.toRedpacketReceiver.userId.length > 1) {
+            [[ECDevice sharedInstance] getOtherPersonInfoWith:message.rpModel.toRedpacketReceiver.userId completion:^(ECError *error, ECPersonInfo *person) {
+                
+                message.rpModel.toRedpacketReceiver.userNickname = person.nickName; //根据需求显示，拆红包界面的定向接收者用户名
+                message.rpModel.toRedpacketReceiver.userAvatar  = nil;              //根据需求显示，拆红包界面的定向接收者用户头像
+                
+                [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
+
+            }];
+        }else
+        {
+            [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
+        }
+        
     }
 }
 
@@ -193,25 +211,5 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     return groupMemberList;
 }
 
-// 要在此处根据userID获得用户昵称,和头像地址
-- (RedpacketUserInfo *)profileEntityWith:(NSString *)userId
-{
-    RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
-    //    UserProfileEntity *profileEntity = [[UserProfileManager sharedInstance] getUserProfileByUsername:userId];
-    //    if (profileEntity) {
-    //        if (profileEntity.nickname && profileEntity.nickname.length > 0) {
-    //
-    //            userInfo.userNickname = profileEntity.nickname;
-    //
-    //        } else {
-    //            userInfo.userNickname = userId;
-    //        }
-    //    } else {
-    //        userInfo.userNickname = userId;
-    //    }
-    //    userInfo.userAvatar = profileEntity.imageUrl;
-    //    userInfo.userId = userId;
-    return userInfo;
-}
 
 @end

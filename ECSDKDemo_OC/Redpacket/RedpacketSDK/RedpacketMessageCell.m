@@ -28,7 +28,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 @property(strong, nonatomic) UILabel *subLabel; // 显示 "查看红包"
 @property(strong, nonatomic) UILabel *orgLabel;
 @property(strong, nonatomic) UIImageView *iconView;
-@property(strong, nonatomic) UIImageView *orgIconView;
+@property(strong, nonatomic) UILabel *orgTypeLabel;
 
 @property(nonatomic, strong) UIImageView *bubbleBackgroundView;
 
@@ -116,16 +116,17 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     [self.orgLabel setTextAlignment:NSTextAlignmentLeft];
     [self.bubbleBackgroundView addSubview:self.orgLabel];
     
-    // 设置红包厂商图标
-    icon = [UIImage imageNamed:REDPACKET_BUNDLE(@"redPacket_yunAccount_icon")];
-    self.orgIconView = [[UIImageView alloc] initWithImage:icon];
-    [self.bubbleBackgroundView addSubview:self.orgIconView];
+    // 设置红包类型
+    self.orgTypeLabel = [[UILabel alloc] init];
+    self.orgTypeLabel.textColor = [UIColor redColor];
+    self.orgTypeLabel.font = [UIFont systemFontOfSize:12.0];
+    [self.bubbleBackgroundView addSubview:self.orgTypeLabel];
     
     
-    CGRect rt = self.orgIconView.frame;
-    rt.origin = CGPointMake(165, 75);
-    rt.size = CGSizeMake(21, 14);
-    self.orgIconView.frame = rt;
+    CGRect rt = self.orgTypeLabel.frame;
+    rt.origin = CGPointMake(145, 75);
+    rt.size = CGSizeMake(51, 14);
+    self.orgTypeLabel.frame = rt;
     [self.fromId removeFromSuperview];//名字隐藏
 
 }
@@ -138,8 +139,8 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     NSString *messageString = redpacketMessage.redpacket.redpacketGreeting;
     self.greetingLabel.text = messageString;
     
-    NSString *orgString = redpacketMessage.redpacket.redpacketOrgName;
-    self.orgLabel.text = orgString;
+//    NSString *orgString = redpacketMessage.redpacket.redpacketOrgName;
+    self.orgLabel.text = @"容联云红包";//orgString;
     
     
     CGRect messageContentViewRect = self.messageContentView.frame;
@@ -161,6 +162,13 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.bubbleBackgroundView.frame = CGRectMake(-8, 0, 198, 94);
         UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
         self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
+    }
+    
+    if (message.rpModel.toRedpacketReceiver.userId.length > 1) {
+        self.orgTypeLabel.text = @"专属红包";
+    }else
+    {
+        self.orgTypeLabel.text = @"";
     }
     
     [self setNeedsLayout];
