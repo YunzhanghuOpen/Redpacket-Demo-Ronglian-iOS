@@ -12,7 +12,7 @@
 
 @protocol RedpacketViewControlDelegate <NSObject>
 
-- (NSArray *)groupMemberList;
+- (NSArray<RedpacketUserInfo *> *)groupMemberList;
 
 @end
 

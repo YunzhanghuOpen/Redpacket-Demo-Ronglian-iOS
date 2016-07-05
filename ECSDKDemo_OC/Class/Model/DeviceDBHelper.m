@@ -147,6 +147,7 @@
     } else {
         session.unreadCount++;
     }
+#pragma mark 消息与红包插件消息转换与处理
     [[IMMsgDBAccess sharedInstance] updateSession:session];
     [[IMMsgDBAccess sharedInstance] addMessage:message];
 }

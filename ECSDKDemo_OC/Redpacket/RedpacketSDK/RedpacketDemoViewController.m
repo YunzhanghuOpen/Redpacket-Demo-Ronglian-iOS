@@ -115,7 +115,9 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 - (void)sendRedpacketHasBeenTaked:(RedpacketMessageModel *)redpacket
 {
     NSString *text = [NSString stringWithFormat:@"%@领取了你的红包", redpacket.redpacketReceiver.userNickname];
-    
+    if (redpacket.isRedacketSender) {
+        text = @"你领取了自己发的红包";
+    }
     ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:text];
     ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
     message.rpModel = redpacket;
@@ -194,7 +196,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     }
 }
 
-- (NSArray *)groupMemberList
+- (NSArray<RedpacketUserInfo *> *)groupMemberList
 {
     NSMutableArray *groupMemberList = [[NSMutableArray alloc]init];
     for (ECGroupMember *member in _members) {

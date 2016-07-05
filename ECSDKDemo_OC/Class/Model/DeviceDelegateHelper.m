@@ -226,6 +226,9 @@
         if (message.isGroup) {
             if ([message.rpModel.redpacketSender.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                 [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
+            }else
+            {
+                return;
             }
         }else
         {
@@ -311,15 +314,34 @@
         }
         return;
     }
-        
 #warning 时间全部转换成本地时间
     if (!message.timestamp) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval tmp =[date timeIntervalSince1970]*1000;
         message.timestamp = [NSString stringWithFormat:@"%lld", (long long)tmp];
     }
-    
-    [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
+#pragma mark 消息与红包插件消息转换与处理
+    if ([message isRedpacketOpenMessage]&&[message isRedpacket])
+    {
+        message.isRead = YES;
+        message.messageState = ECMessageState_SendSuccess;
+        if (message.isGroup) {
+            if ([message.rpModel.redpacketSender.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+                [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:nil];
+            }else
+            {
+                return;
+            }
+        }else
+        {
+            [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:nil];
+        }
+        
+    }else
+    {
+        [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
+    }
+
     
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
     
