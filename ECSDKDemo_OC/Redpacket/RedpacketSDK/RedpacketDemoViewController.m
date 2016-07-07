@@ -101,7 +101,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     
     ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:[NSString stringWithFormat:@"[容联云红包]%@",redpacket.redpacket.redpacketGreeting]];
     ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
-    message.rpModel = redpacket;
+    message.userData = [message voluationModele:redpacket];
     
     ECMessage* sendMessage = [[DeviceChatHelper sharedInstance] sendMessage:message];;
     
@@ -119,7 +119,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     }
     ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:text];
     ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
-    message.rpModel = redpacket;
+    message.userData = [message voluationModele:redpacket];
     message.isRead = YES;
     ECMessage* sendMessage = [[DeviceChatHelper sharedInstance] sendMessage:message];;
     

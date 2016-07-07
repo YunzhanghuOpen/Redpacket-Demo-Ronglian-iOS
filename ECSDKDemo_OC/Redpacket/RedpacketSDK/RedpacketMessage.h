@@ -14,4 +14,5 @@
 - (BOOL)isRedpacketOpenMessage;
 - (NSString *)redpacketString;
 - (NSDictionary *)redPacketDic;
+- (NSString *)voluationModele:(RedpacketMessageModel *)model;
 @end

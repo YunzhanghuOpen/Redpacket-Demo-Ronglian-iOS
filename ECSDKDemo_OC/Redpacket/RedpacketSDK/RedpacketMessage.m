@@ -12,16 +12,7 @@
 - (void)setRpModel:(RedpacketMessageModel *)rpModel{
     [self willChangeValueForKey:@"rpModel"];
     objc_setAssociatedObject(self, @"RedpacketMessageModel", rpModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    NSDictionary * rp = [rpModel redpacketDetailDic];
-    if (rp){
-        NSError * error;
-        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
-        if (!error) {
-            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-            self.userData = rpString;
-        };
-    }
-    [self didChangeValueForKey:@"rpModel"];
+    [rpModel redpacketMessageModelToDic];
 }
 - (RedpacketMessageModel *)rpModel{
     return objc_getAssociatedObject(self, @"RedpacketMessageModel");
@@ -94,9 +85,29 @@
 - (NSDictionary *)redPacketDic
 {
     NSData *data = [self.userData dataUsingEncoding:NSUTF8StringEncoding];
-    
+    if (data.length < 1) {
+        return nil;
+    }
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     return dict;
 }
+
+- (NSString *)voluationModele:(RedpacketMessageModel *)model
+{
+    objc_setAssociatedObject(self, @"RedpacketMessageModel", model, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSDictionary * rp = [model redpacketMessageModelToDic];
+    if (rp){
+        NSError * error;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
+        if (!error) {
+            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+            self.userData = rpString;
+        }
+    }
+    [self didChangeValueForKey:@"rpModel"];
+    
+    return self.userData;
+}
+
 @end
