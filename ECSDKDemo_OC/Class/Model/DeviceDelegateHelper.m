@@ -225,6 +225,8 @@
         message.messageState = ECMessageState_SendSuccess;
         if (message.isGroup) {
             if ([message.rpModel.redpacketSender.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+                ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:message.redpacketString];
+                message.messageBody = messageBody;
                 [[DeviceDBHelper sharedInstance] addNewMessage:message andSessionId:self.sessionId];
             }else
             {
