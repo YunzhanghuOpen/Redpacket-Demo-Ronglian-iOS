@@ -49,7 +49,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
-                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMemberArray:members];
+                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMembers:members];
                 _members = members;
             }
         }];
@@ -86,8 +86,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         [weakSelf sendRedpacketMessage:model];
         
     }];
-    // 通知 红包 SDK 刷新 Token
-    [[YZHRedpacketBridge sharedBridge] reRequestRedpacketUserToken];
+
 }
 //
 //
@@ -179,7 +178,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         message.rpModel.redpacketSender.userNickname = message.from;//根据需求显示，拆红包界面的发送者用户名
         message.rpModel.redpacketSender.userAvatar  = nil;          //根据需求显示，拆红包界面的发送整的用户头像
         
-        if (message.rpModel.toRedpacketReceiver.userId.length > 1) {
+        if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
             [[ECDevice sharedInstance] getOtherPersonInfoWith:message.rpModel.toRedpacketReceiver.userId completion:^(ECError *error, ECPersonInfo *person) {
                 
                 message.rpModel.toRedpacketReceiver.userNickname = person.nickName; //根据需求显示，拆红包界面的定向接收者用户名

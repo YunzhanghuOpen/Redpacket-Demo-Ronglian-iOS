@@ -1542,7 +1542,7 @@ const char KMenuViewKey;
         }
     }
     
-    CGFloat buttonW = 60.0f;
+    CGFloat buttonW = 50.0f;
     CGFloat buttonH = 50.0f;
     CGFloat buttonX;
     CGFloat buttonY;

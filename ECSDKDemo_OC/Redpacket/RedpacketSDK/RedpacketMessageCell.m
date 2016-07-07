@@ -118,13 +118,16 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     
     // 设置红包类型
     self.orgTypeLabel = [[UILabel alloc] init];
-    self.orgTypeLabel.textColor = [UIColor redColor];
+    self.orgTypeLabel.textColor = rp_hexColor(0xf14e46);
     self.orgTypeLabel.font = [UIFont systemFontOfSize:12.0];
     [self.bubbleBackgroundView addSubview:self.orgTypeLabel];
     
     
     CGRect rt = self.orgTypeLabel.frame;
     rt.origin = CGPointMake(145, 75);
+    if (self.isSender) {
+        rt.origin = CGPointMake(141, 75);
+    }
     rt.size = CGSizeMake(51, 14);
     self.orgTypeLabel.frame = rt;
     [self.fromId removeFromSuperview];//名字隐藏
@@ -163,13 +166,12 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
         self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
     }
-    
-    if (message.rpModel.toRedpacketReceiver.userId.length > 1) {
-        self.orgTypeLabel.text = @"专属红包";
-    }else
-    {
-        self.orgTypeLabel.text = @"";
-    }
+        if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
+            self.orgTypeLabel.text = @"专属红包";
+        }else
+        {
+            self.orgTypeLabel.text = @"";
+        }
     
     [self setNeedsLayout];
 }

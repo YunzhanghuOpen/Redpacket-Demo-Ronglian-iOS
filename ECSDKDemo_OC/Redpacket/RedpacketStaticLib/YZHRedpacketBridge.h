@@ -56,17 +56,6 @@
                appUserId:(NSString *)appUserId
                  imToken:(NSString *)imToken;
 
-
-/**
- *  用户退出登录，或者在其它地点登录后，清除用户信息
- */
-- (void)redpacketUserLoginOut;
-
-/**
- *   重新请求红包用户Token
- */
-- (void)reRequestRedpacketUserToken;
-
 /**
  *  请求Token
  *

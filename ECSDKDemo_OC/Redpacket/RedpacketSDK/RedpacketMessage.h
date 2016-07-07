@@ -13,4 +13,5 @@
 - (BOOL)isRedpacket;
 - (BOOL)isRedpacketOpenMessage;
 - (NSString *)redpacketString;
+- (NSDictionary *)redPacketDic;
 @end
