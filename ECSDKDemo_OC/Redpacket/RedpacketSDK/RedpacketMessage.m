@@ -13,6 +13,15 @@
     [self willChangeValueForKey:@"rpModel"];
     objc_setAssociatedObject(self, @"RedpacketMessageModel", rpModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [rpModel redpacketMessageModelToDic];
+//    if (rp){
+//        NSError * error;
+//        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
+//        if (!error) {
+//            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+//            self.userData = rpString;
+//        }
+//    }
+    [self didChangeValueForKey:@"rpModel"];
 }
 - (RedpacketMessageModel *)rpModel{
     return objc_getAssociatedObject(self, @"RedpacketMessageModel");
@@ -59,23 +68,28 @@
     }
     else if (RedpacketMessageTypeTedpacketTakenMessage == self.rpModel.messageType) {
         NSString *s = nil;
-        if([self.rpModel.currentUser.userId isEqualToString:self.rpModel.redpacketReceiver.userId]) {
-            // 显示我抢了别人的红包的提示
-            if ([self.rpModel.redpacketSender.userId isEqualToString:self.rpModel.redpacketReceiver.userId]) {
-                s = @"你领取了自己的红包";
+        if (self.isGroup) {
+            
+            if([self.rpModel.redpacketSender.userId isEqualToString:self.rpModel.redpacketReceiver.userId]) {
+                s = @"你领取了自己发的红包";
             }
-            else {
-                s =[NSString stringWithFormat:@"%@%@%@", // 你领取了 XXX 的红包
-                    NSLocalizedString(@"你领取了", @"领取红包消息"),
-                    self.rpModel.redpacketSender.userNickname,
-                    NSLocalizedString(@"的红包", @"领取红包消息结尾")
-                    ];
+            else if (self.rpModel.isRedacketSender)
+            {
+                s = [NSString stringWithFormat:@"%@领取了你的红包",self.rpModel.redpacketReceiver.userNickname];
             }
-        }
-        else { // 收到了别人抢了我的红包的消息提示
-            s = [NSString stringWithFormat:@"%@%@", // XXX 领取了你的红包
-                 self.rpModel.redpacketReceiver.userNickname,
-                 NSLocalizedString(@"领取了你的红包", @"领取红包消息")];
+            else
+            {
+                s = [NSString stringWithFormat:@"你领取了%@的红包",self.rpModel.redpacketSender.userNickname];
+            }
+
+        }else
+        {
+            if ([self.rpModel.currentUser.userId isEqualToString:self.rpModel.redpacketSender.userId]) {
+                s = [NSString stringWithFormat:@"%@领取了你的红包",self.rpModel.redpacketReceiver.userNickname];
+            }else
+            {
+                s = [NSString stringWithFormat:@"你领取了%@",self.rpModel.redpacketSender.userNickname];
+            }
         }
         return s;
     }
@@ -97,6 +111,23 @@
 {
     objc_setAssociatedObject(self, @"RedpacketMessageModel", model, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     NSDictionary * rp = [model redpacketMessageModelToDic];
+    if (rp){                   
+        NSError * error;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
+        if (!error) {
+            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+            self.userData = rpString;
+        }
+    }
+    [self didChangeValueForKey:@"rpModel"];
+    
+    return self.userData;
+}
+
+- (NSString *)voluationNoticeModele:(RedpacketMessageModel *)model
+{
+    objc_setAssociatedObject(self, @"RedpacketMessageModel", model, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSDictionary * rp = [model.redpacketMessageModelToDic mutableCopy];
     if (rp){
         NSError * error;
         NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];

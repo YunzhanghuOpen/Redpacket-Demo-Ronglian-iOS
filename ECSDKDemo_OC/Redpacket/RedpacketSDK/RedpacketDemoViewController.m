@@ -119,7 +119,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     }
     ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:text];
     ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
-    message.userData = [message voluationModele:redpacket];
+    message.userData = [message voluationNoticeModele:redpacket];
     message.isRead = YES;
     ECMessage* sendMessage = [[DeviceChatHelper sharedInstance] sendMessage:message];;
     
@@ -175,8 +175,9 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 - (void)redpacketCell:(RedpacketMessageCell *)cell didTap:(ECMessage *)message{
     if(RedpacketMessageTypeRedpacket == message.rpModel.messageType) {
         
-        message.rpModel.redpacketSender.userNickname = message.from;//根据需求显示，拆红包界面的发送者用户名
+        message.rpModel.redpacketSender.userNickname = [[DemoGlobalClass sharedInstance] getOtherNameWithPhone:message.from];//根据需求显示，拆红包界面的发送者用户名
         message.rpModel.redpacketSender.userAvatar  = nil;          //根据需求显示，拆红包界面的发送整的用户头像
+        message.rpModel.redpacketSender.userId = message.from;
         
         if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
             [[ECDevice sharedInstance] getOtherPersonInfoWith:message.rpModel.toRedpacketReceiver.userId completion:^(ECError *error, ECPersonInfo *person) {

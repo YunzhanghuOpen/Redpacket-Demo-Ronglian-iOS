@@ -8,6 +8,7 @@
 
 #import "DeviceDBHelper.h"
 #import "ECSession.h"
+#import "RedpacketMessage.h"
 
 @implementation DeviceDBHelper
 
@@ -215,6 +216,10 @@
         case MessageBodyType_Text: {
             ECTextMessageBody * msg = (ECTextMessageBody*)message.messageBody;
             session.text = [NSString stringWithFormat:@"%@%@",fromName,msg.text];
+#pragma mark - 红包修改 红包消息提示不显示名字
+            if ([message isRedpacketOpenMessage]) {
+                session.text = [NSString stringWithFormat:@"%@",[message redpacketString]];
+            }
             if (msg.isAted) {
                 session.isAt = msg.isAted;
             }
