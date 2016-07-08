@@ -15,7 +15,11 @@
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 #import "WXApi.h"
+
+#pragma mark -红包- 红包头文件
 #import "RedpacketConfig.h"
+#import "RedpacketOpenConst.h"
+#import "AlipaySDK.h"
 
 #define LOG_OPEN 0
 
@@ -100,7 +104,7 @@
         [[DeviceDBHelper sharedInstance] openDataBasePath:[DemoGlobalClass sharedInstance].userName];
         self.mainView = [[MainViewController alloc] init];
         rootView = [[UINavigationController alloc] initWithRootViewController:_mainView];
-#pragma mark 红包-------------用于注册红包SDK
+#pragma mark -红包- -------------用于注册红包SDK
         [RedpacketConfig config];
     } else {
         
@@ -231,11 +235,6 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [DeviceDelegateHelper sharedInstance].preDate = [NSDate date];
-}
-
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
@@ -304,5 +303,44 @@
     
     self.window.rootViewController = rootView;
 }
+
+
+
+#pragma mark -红包- ------- Alipay
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:nil];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:resultDic];
+        }];
+    }
+    return YES;
+}
+
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString*, id> *)options
+{
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:resultDic];
+        }];
+    }
+    return YES;
+}
+
+
 
 @end

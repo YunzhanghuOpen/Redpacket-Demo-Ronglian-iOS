@@ -148,7 +148,7 @@ const char KAlertGroup;
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         [MBProgressHUD hideHUDForView:strongSelf.view animated:NO];
         if (error.errorCode==ECErrorType_Have_Joined) {
-#pragma mark 红包-------------修改聊天界面入口
+#pragma mark -红包- -------------修改聊天界面入口
             UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
             SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
             if ([viewController respondsToSelector:aSelector]) {
@@ -160,7 +160,7 @@ const char KAlertGroup;
             
         }else if(error.errorCode==ECErrorType_NoError){
             if (strongSelf.applyGroup.mode == ECGroupPermMode_DefaultJoin) {
-#pragma mark 红包-------------修改聊天界面入口          
+#pragma mark -红包- -------------修改聊天界面入口          
                 UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
                 SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
                 if ([viewController respondsToSelector:aSelector]) {

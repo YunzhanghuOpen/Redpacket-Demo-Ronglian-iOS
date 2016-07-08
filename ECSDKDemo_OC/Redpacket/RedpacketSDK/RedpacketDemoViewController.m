@@ -10,7 +10,7 @@
 
 
 
-#pragma mark - 红包相关头文件
+#pragma mark -红包- 相关头文件
 #import "RedpacketViewControl.h"
 #import "YZHRedpacketBridge.h"
 #import "RedpacketMessage.h"
@@ -19,9 +19,8 @@
 #import "DeviceChatHelper.h"
 #import "ChatViewCell.h"
 #import "RedpacketMessage.h"
-#pragma mark -
 
-#pragma mark - 红包相关的宏定义
+#pragma mark -红包- 相关的宏定义
 #define REDPACKET_BUNDLE(name) @"RedpacketCellResource.bundle/" name
 #pragma mark -
 
@@ -39,7 +38,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 
 @implementation RedpacketDemoViewController
 
-//#pragma mark - 红包功能入口事件处理
+#pragma mark -红包- 群红包功能入口事件处理
 - (void)redPacketTap:(id)sender{
     if (!isGroup) {
         [self.redpacketControl presentRedPacketViewController];
@@ -97,7 +96,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 }
 //
 //
-#pragma mark - 消息与红包插件消息转换与处理
+#pragma mark -红包- 消息与红包插件消息转换与处理
 // 发送红包消息
 - (void)sendRedpacketMessage:(RedpacketMessageModel *)redpacket
 {

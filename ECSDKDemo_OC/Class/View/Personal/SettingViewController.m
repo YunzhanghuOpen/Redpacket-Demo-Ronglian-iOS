@@ -9,7 +9,7 @@
 #import "SettingViewController.h"
 #import "RedpacketConfig.h"
 
-#pragma redpacke_fix?
+#pragma mark - 红包----显示零钱页面
 #import "RedpacketViewControl.h"
 
 #define TAG_SwitchSound     100
@@ -246,7 +246,7 @@
     [alertView show];
 }
 
-#pragma redpacke_fix? 点击零钱按钮
+#pragma mark - 红包 零钱页面
 //零钱
 - (void)ChangePurseBtnClicked
 {

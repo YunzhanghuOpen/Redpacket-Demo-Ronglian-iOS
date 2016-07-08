@@ -8,6 +8,8 @@
 
 #import "DeviceDBHelper.h"
 #import "ECSession.h"
+
+#pragma mark -红包- 相关头文件
 #import "RedpacketMessage.h"
 
 @implementation DeviceDBHelper
@@ -148,7 +150,6 @@
     } else {
         session.unreadCount++;
     }
-#pragma mark 消息与红包插件消息转换与处理
     [[IMMsgDBAccess sharedInstance] updateSession:session];
     [[IMMsgDBAccess sharedInstance] addMessage:message];
 }
@@ -216,8 +217,8 @@
         case MessageBodyType_Text: {
             ECTextMessageBody * msg = (ECTextMessageBody*)message.messageBody;
             session.text = [NSString stringWithFormat:@"%@%@",fromName,msg.text];
-#pragma mark - 红包修改 红包消息提示不显示名字
-            if ([message isRedpacketOpenMessage]) {
+#pragma mark -红包- 修改 红包消息提示不显示名字
+            if ([message isRedpacketOpenMessage] || [message isRedpacket]) {
                 session.text = [NSString stringWithFormat:@"%@",[message redpacketString]];
             }
             if (msg.isAted) {

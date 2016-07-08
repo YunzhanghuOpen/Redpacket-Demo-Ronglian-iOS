@@ -15,7 +15,7 @@ typedef enum {
 #define KNOTIFICATION_RefreshMoreData   @"KNOTIFICATION_RefreshMoreData"
 
 @interface ChatViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
-#pragma mark 红包-------------暴露出变量
+#pragma mark -红包- -------------暴露出变量
     BOOL isGroup;
     dispatch_source_t _timer;
     UserState userInputState;

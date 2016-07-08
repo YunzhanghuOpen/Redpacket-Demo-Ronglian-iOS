@@ -9,6 +9,8 @@
 #import "DeviceDelegateHelper.h"
 #import "EmojiConvertor.h"
 #import "UIImageView+WebCache.h"
+
+#pragma mark -红包- 相关头文件
 #import "RedpacketMessage.h"
 
 @interface DeviceDelegateHelper()
@@ -218,7 +220,7 @@
         message.timestamp = [NSString stringWithFormat:@"%lld", (long long)tmp];
     }
 
-#pragma mark 消息与红包插件消息转换与处理
+#pragma mark -红包- 消息与红包插件消息转换与处理
     if ([message isRedpacketOpenMessage]&&[message isRedpacket])
     {
         message.isRead = YES;
@@ -322,7 +324,7 @@
         NSTimeInterval tmp =[date timeIntervalSince1970]*1000;
         message.timestamp = [NSString stringWithFormat:@"%lld", (long long)tmp];
     }
-#pragma mark 消息与红包插件消息转换与处理
+#pragma mark -红包-  消息与红包插件消息转换与处理
     if ([message isRedpacketOpenMessage]&&[message isRedpacket])
     {
         message.isRead = YES;

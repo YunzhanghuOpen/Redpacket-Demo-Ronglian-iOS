@@ -77,7 +77,7 @@ extern NSString * Notification_ChangeMainDisplay;
 }
 
 -(void)contactBtnClicked {
-#pragma mark 红包-------------修改聊天界面入口
+#pragma mark -红包- -------------修改聊天界面入口
     UIViewController* viewController = [[NSClassFromString(@"RedpacketDemoViewController") alloc] init];
     SEL aSelector = NSSelectorFromString(@"ECDemo_setSessionId:");
     if ([viewController respondsToSelector:aSelector]) {

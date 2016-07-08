@@ -1506,7 +1506,7 @@ const char KMenuViewKey;
 }
 
 -(void)createMoreView {
-  #pragma mark 红包-----------------添加红包选项
+#pragma mark -红包- -----------------添加红包选项
     _moreView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, ToolbarInputViewHeight, _containerView.frame.size.width, ToolbarMoreViewHeight1)];
     _moreView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     _moreView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
