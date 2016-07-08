@@ -1524,14 +1524,14 @@ const char KMenuViewKey;
     } else {
         
         if ([self.sessionId hasPrefix:@"g"]) {
-            imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"chat_location_normal",@"RedpacketCellResource.bundle/redpacket_redpacket"];
+            imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"chat_location_normal",@"dialogue_redpacket_icon@2x"];
             textArr = @[@"图片",@"拍摄",@"位置",@"红包"];
             selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"locationBtnTap:",@"redPacketTap:"];
             
         } else {
             if ( ![self.sessionId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                 
-                imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_phone_icon",@"dialogue_video_icon",@"dialogue_snap_icon",@"chat_location_normal",@"RedpacketCellResource.bundle/redpacket_redpacket"];
+                imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_phone_icon",@"dialogue_video_icon",@"dialogue_snap_icon",@"chat_location_normal",@"dialogue_redpacket_icon@2x"];
                 textArr = @[@"图片",@"拍摄",@"音频",@"视频",@"阅后即焚",@"位置",@"红包"];
                 selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"voiceCallBtnTap:",@"videoCallBtnTap:",@"snapFireBtnTap:",@"locationBtnTap:",@"redPacketTap:"];
             } else {

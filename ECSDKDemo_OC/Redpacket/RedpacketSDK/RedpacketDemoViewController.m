@@ -51,12 +51,19 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
                 [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMembers:members];
                 _members = members;
+            }else
+            {
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"网络故障，请稍后" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                
+                [alertView show];
             }
         }];
         
         
     }
 }
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
