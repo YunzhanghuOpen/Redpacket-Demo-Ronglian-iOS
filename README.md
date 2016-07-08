@@ -1,65 +1,112 @@
-##容联云红包 SDK 接入文档
+容联云 SDK 接入文档
 =================
 
-##本demo采用容联云5.2.1r版本 地址为
-`http://docs.yuntongxun.com/images/6/62/YTX_iOS_Full_Demo.zip`
+使用容联云 demo app
+------------------
 
-=================
-
-  `红包 SDK` 的 demo 直接嵌入进 容联云 demo  中，对于原 demo 仅做了少量的修改。如果你的 app 采用 容联云 demo app 作为原型的话，这里的方法是简单快捷的。
+  `红包 SDK` 的 demo 直接嵌入进 融容联云 中，对于原 demo 仅做了少量的修改。如果你的 app 采用 容联云的 demo app 作为原型的话，这里的方法是简单快捷的。
 
   在容联云 demo app 里做的修改添加了相关的 `#pragma mark` 标记，可以在 Xcode 快速跳转到相应的标记
 
-1. clone demo:[https://github.com/YunzhanghuOpen/RongLianyun]
+###GitHub地址
 
-2. 下载最新的红包 SDK 库文件 ( master 或者是 release )
+1. clone demo:[https://github.com/YunzhanghuOpen/RongLianyun](https://github.com/YunzhanghuOpen/RongLianyun)
 
-  因为`红包 SDK` 在一直更新维护，所以为了不与 demo 产生依赖，所以采取了单独下载 zip 包的策略
+  `git clone git@github.com:YunzhanghuOpen/RongLianyun.git`
 
-  [https://github.com/YunzhanghuOpen/iOSRedpacketLib](https://github.com/YunzhanghuOpen/iOSRedpacketLib)
+####开始集成红包
+####1. 导入RedpacketLib和支付宝.在info.plist文件中添加支付宝回调的URL Schemes `alipayredpacket`
 
-  解压后将 RedpacketLib 复制至/ECSDKDemo_OC/Redpacket 目录下。
+    支付宝具体参考[https://doc.open.alipay.com/doc2/detail?treeId=59&articleId=103676&docType=1](https://doc.open.alipay.com/doc2/detail?treeId=59&articleId=103676&docType=1)
+####2. 设置红包信息
 
-3. 开启 RongLianyun/ECSDKDemo_OC.xcodeproj 工程文件
+  在 `AppDelegate.m` 中导入头文件
+  
+  ```objc
+    #pragma mark - 红包相关头文件
+    #import "RedpacketConfig.h"
+    #import "RedpacketOpenConst.h"
+    #import "AlipaySDK.h"
+  ```
+  在Appdelegate
+  添加
 
+    ```objc
+    #pragma mark - 配置红包信息登录成功的情况下调用
+    [RedpacketConfig config];
+    
+    同时需添加
+    ```objc
+    - (void)applicationDidBecomeActive:(UIApplication *)application
+	{
+    [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:nil];
+	}
 
+	- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+	  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:resultDic];
+        }];
+    }
+    return YES;
+	}
 
-## 设置红包信息
-1. RedpacketConfig 是针对注册红包封装的注册类。需要在登录时和退出登录时以及刷新用户身份是调用项对应操作。内部参数需由开发者自行修改
+	// NOTE: 9.0以后使用新API接口
+	- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString*, id> *)options
+	{
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:resultDic];
+        }];
+    }
+    return YES;
+}
+```
 
-2. 在聊天对话中添加红包支持
+  `RedpacketConfig` 类有两个作用。
+
+    1) 它实现了 `YZHRedpacketBridgeDataSource` protocol，并在 Singleton 创建对象的时候设置了
+    ```objc
+    [[YZHRedpacketBridge sharedBridge] setDataSource:config];`
+    ```
+    `YZHRedpacketBridgeDataSource` protocol 用以为红包 SDK 提供用户信息
+
+    2) 它用于执行`YZHRedpacketBridge` 的
+
+    ```objc
+    - (void)configWithSign:(NSString *)sign
+               partner:(NSString *)partner
+             appUserId:(NSString *)appUserid
+             timeStamp:(long)timeStamp;
+    ```
+
+    以执行`红包 SDK` 的信息注册
+    所以在登录、退出登录、刷新用户信息是要分别调用RedpacketConfig的三个API
+    ```objc
+    [RedpacketConfig config]//登录
+    [RedpacketConfig logout]//退出登录
+    [RedpacketConfig reconfig]//刷新身份
+    ```
+    开发者赢后续替换自己服务器URL来获取注册身份信息
+    
+####3. 在聊天对话中添加红包支持
 
   1) 添加类支持
 
-  在 容联云 demo app 中已经实现 `RedpacketDemoViewController` ，为了尽量不改动原来的代码，我们重新定义 `ChatViewController` 的子类 `RedpacketDemoViewController`。
-  同时需要将`ChatViewController`全部替换成`RedpacketDemoViewController`
-  
-3. 在 `ChatViewController` 中的私有变量暴露在.h文件中
+  在 容联云 demo app 中已经实现 `ChatViewController` ，为了尽量不改动原来的代码，我们重新定义 `RedpacketDemoViewController` 的子类 `RedpacketDemoViewController`。
 
-  ```objc
-BOOL isGroup;
-dispatch_source_t _timer;
-UserState userInputState;
-  //会话ID
-@property (nonatomic, strong) NSString* sessionId;
-//消息列表
-@property (nonatomic, strong) NSMutableArray* messageArray;
-  ```
+  在 `ChatViewController` 中ChatViewController全部替换为RedpacketDemoViewController
+      
+  2) 添加红包功能
 
-  同时在.h暴露UITableView协议
-
-  ```objc
- <UITableViewDelegate,UITableViewDataSource>
- 
-  ```
-  增加红包入口
-  ```objc
-  -(void)createMoreView 
-  ```
-  
-
-4. 添加红包功能
-    
   查看 `RedpacketDemoViewController.m` 的 源代码注释了解红包功能的。
 
     添加的部分包括：
@@ -70,12 +117,23 @@ UserState userInputState;
        (4) 设置红包接收用户信息
        (5) 设置红包 SDK 功能回调
 
-5. 显示零钱功能
-
+####4. 显示零钱功能
+	导入头文件`#import "RedpacketViewControl.h`
   通过执行
 
-```objc
-  - [RedpacketViewControl presentChangeMoneyViewController]
-```
+    ```objc
+    -[RedpacketViewControl presentChangeMoneyViewController]
+        ```
+    建议写法：
 
-  
+       // 零钱页面
+    	UIViewController *changeController = [RedpacketViewControl changeMoneyController];
+   		UINavigationController *nav = [[UINavigationController alloc] 		initWithRootViewController:changeController];
+    	[self presentViewController:nav animated:YES completion:nil];
+
+
+####5. 注意事项
+	    
+    容联云demo的中的修改 都有一个标识 `#pragma mark -红包- ` 可以全局搜索查看
+
+
