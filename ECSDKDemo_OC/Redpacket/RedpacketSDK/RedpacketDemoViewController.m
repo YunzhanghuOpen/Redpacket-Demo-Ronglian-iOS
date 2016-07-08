@@ -22,7 +22,6 @@
 
 #pragma mark -红包- 相关的宏定义
 #define REDPACKET_BUNDLE(name) @"RedpacketCellResource.bundle/" name
-#pragma mark -
 
 static NSString *const RedpacketMessageCellIdentifier = @"RedpacketMessageCellIdentifier";
 static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTakenMessageTipCellIdentifier";
@@ -202,6 +201,8 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     }
 }
 
+#pragma delegate RedpacketViewControlDelegate
+
 - (NSArray<RedpacketUserInfo *> *)groupMemberList
 {
     NSMutableArray *groupMemberList = [[NSMutableArray alloc]init];
@@ -211,7 +212,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         userInfo.userNickname = member.display;//用户昵称
         userInfo.userAvatar = nil; //用户头像地址
         if ([userInfo.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
-            
+            // 专属红包不可以发送给自己
         }else{
             [groupMemberList addObject:userInfo];
         }
