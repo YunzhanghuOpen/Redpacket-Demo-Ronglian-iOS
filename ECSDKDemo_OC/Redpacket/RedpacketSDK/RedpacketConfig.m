@@ -40,7 +40,7 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
 
 + (void)logout
 {
-//    [[YZHRedpacketBridge sharedBridge] redpacketUserLoginOut];
+    [[YZHRedpacketBridge sharedBridge] redpacketUserLoginOut];
 }
 
 + (void)reconfig

@@ -569,14 +569,13 @@
 		8489583E1C225F9B008A65AA /* location_GPS@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8489583D1C225F9B008A65AA /* location_GPS@2x.png */; };
 		84BFE0171D2F6B580027B6A5 /* dialogue_redacket_icon_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BFE0151D2F6B580027B6A5 /* dialogue_redacket_icon_on@2x.png */; };
 		84BFE0181D2F6B580027B6A5 /* dialogue_redpacket_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BFE0161D2F6B580027B6A5 /* dialogue_redpacket_icon@2x.png */; };
-		84BFE0271D2F75100027B6A5 /* libRedpacketLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BFE01D1D2F75100027B6A5 /* libRedpacketLib.a */; };
-		84BFE0281D2F75100027B6A5 /* redPackert_toSomebody@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BFE0231D2F75100027B6A5 /* redPackert_toSomebody@2x.png */; };
-		84BFE0291D2F75100027B6A5 /* RedPacketResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84BFE0241D2F75100027B6A5 /* RedPacketResource.bundle */; };
 		84CC39051C1FA93500AAE246 /* ECLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC39041C1FA93500AAE246 /* ECLocationViewController.m */; };
 		84CC390A1C1FABE600AAE246 /* chat_location_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CC39061C1FABE600AAE246 /* chat_location_normal@2x.png */; };
 		84CC390B1C1FABE600AAE246 /* chat_location_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CC39071C1FABE600AAE246 /* chat_location_normal@3x.png */; };
 		84CC39111C1FE3B900AAE246 /* ECDeviceVoiceRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC39101C1FE3B900AAE246 /* ECDeviceVoiceRecordView.m */; };
 		84CC39151C1FFA4000AAE246 /* ECLocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC39141C1FFA4000AAE246 /* ECLocationPoint.m */; };
+		84DABDF31D2F834B007C93C0 /* libRedpacketLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DABDEA1D2F834B007C93C0 /* libRedpacketLib.a */; };
+		84DABDF41D2F834B007C93C0 /* RedPacketResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84DABDF01D2F834B007C93C0 /* RedPacketResource.bundle */; };
 		84DE42681C210D4700E2C45F /* ChatViewLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE42671C210D4700E2C45F /* ChatViewLocationCell.m */; };
 		84DE42731C2142F000E2C45F /* chatView_location_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84DE42711C2142F000E2C45F /* chatView_location_map@2x.png */; };
 		84DE42741C2142F000E2C45F /* chatView_location_map@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84DE42721C2142F000E2C45F /* chatView_location_map@3x.png */; };
@@ -1370,17 +1369,6 @@
 		8489583D1C225F9B008A65AA /* location_GPS@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_GPS@2x.png"; sourceTree = "<group>"; };
 		84BFE0151D2F6B580027B6A5 /* dialogue_redacket_icon_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialogue_redacket_icon_on@2x.png"; sourceTree = "<group>"; };
 		84BFE0161D2F6B580027B6A5 /* dialogue_redpacket_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialogue_redpacket_icon@2x.png"; sourceTree = "<group>"; };
-		84BFE01A1D2F75100027B6A5 /* AlipaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipaySDK.h; sourceTree = "<group>"; };
-		84BFE01B1D2F75100027B6A5 /* APayAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APayAuthInfo.h; sourceTree = "<group>"; };
-		84BFE01D1D2F75100027B6A5 /* libRedpacketLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRedpacketLib.a; sourceTree = "<group>"; };
-		84BFE01E1D2F75100027B6A5 /* RedpacketErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketErrorCode.h; sourceTree = "<group>"; };
-		84BFE01F1D2F75100027B6A5 /* RedpacketMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketMessageModel.h; sourceTree = "<group>"; };
-		84BFE0201D2F75100027B6A5 /* RedpacketOpenConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketOpenConst.h; sourceTree = "<group>"; };
-		84BFE0211D2F75100027B6A5 /* RedpacketViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketViewControl.h; sourceTree = "<group>"; };
-		84BFE0231D2F75100027B6A5 /* redPackert_toSomebody@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redPackert_toSomebody@2x.png"; sourceTree = "<group>"; };
-		84BFE0241D2F75100027B6A5 /* RedPacketResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RedPacketResource.bundle; sourceTree = "<group>"; };
-		84BFE0251D2F75100027B6A5 /* YZHRedpacketBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHRedpacketBridge.h; sourceTree = "<group>"; };
-		84BFE0261D2F75100027B6A5 /* YZHRedpacketBridgeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHRedpacketBridgeProtocol.h; sourceTree = "<group>"; };
 		84CC39031C1FA93500AAE246 /* ECLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECLocationViewController.h; sourceTree = "<group>"; };
 		84CC39041C1FA93500AAE246 /* ECLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECLocationViewController.m; sourceTree = "<group>"; };
 		84CC39061C1FABE600AAE246 /* chat_location_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_location_normal@2x.png"; sourceTree = "<group>"; };
@@ -1389,6 +1377,14 @@
 		84CC39101C1FE3B900AAE246 /* ECDeviceVoiceRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECDeviceVoiceRecordView.m; sourceTree = "<group>"; };
 		84CC39131C1FFA4000AAE246 /* ECLocationPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECLocationPoint.h; sourceTree = "<group>"; };
 		84CC39141C1FFA4000AAE246 /* ECLocationPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECLocationPoint.m; sourceTree = "<group>"; };
+		84DABDEA1D2F834B007C93C0 /* libRedpacketLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRedpacketLib.a; sourceTree = "<group>"; };
+		84DABDEB1D2F834B007C93C0 /* RedpacketErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketErrorCode.h; sourceTree = "<group>"; };
+		84DABDEC1D2F834B007C93C0 /* RedpacketMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketMessageModel.h; sourceTree = "<group>"; };
+		84DABDED1D2F834B007C93C0 /* RedpacketOpenConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketOpenConst.h; sourceTree = "<group>"; };
+		84DABDEE1D2F834B007C93C0 /* RedpacketViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketViewControl.h; sourceTree = "<group>"; };
+		84DABDF01D2F834B007C93C0 /* RedPacketResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RedPacketResource.bundle; sourceTree = "<group>"; };
+		84DABDF11D2F834B007C93C0 /* YZHRedpacketBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHRedpacketBridge.h; sourceTree = "<group>"; };
+		84DABDF21D2F834B007C93C0 /* YZHRedpacketBridgeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHRedpacketBridgeProtocol.h; sourceTree = "<group>"; };
 		84DE42661C210D4700E2C45F /* ChatViewLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewLocationCell.h; sourceTree = "<group>"; };
 		84DE42671C210D4700E2C45F /* ChatViewLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewLocationCell.m; sourceTree = "<group>"; };
 		84DE42711C2142F000E2C45F /* chatView_location_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatView_location_map@2x.png"; sourceTree = "<group>"; };
@@ -1471,7 +1467,7 @@
 				0568ADFC1C98F9E400DE59C4 /* MOBFoundation.framework in Frameworks */,
 				05967CBB1A30634C00C98C86 /* MobileCoreServices.framework in Frameworks */,
 				05967CB91A30634300C98C86 /* AudioToolbox.framework in Frameworks */,
-				84BFE0271D2F75100027B6A5 /* libRedpacketLib.a in Frameworks */,
+				84DABDF31D2F834B007C93C0 /* libRedpacketLib.a in Frameworks */,
 				05967CB71A30633B00C98C86 /* CoreGraphics.framework in Frameworks */,
 				05967CB51A30630200C98C86 /* AVFoundation.framework in Frameworks */,
 			);
@@ -2769,40 +2765,6 @@
 			path = AlipayLib;
 			sourceTree = "<group>";
 		};
-		84BFE0191D2F75100027B6A5 /* RedpacketStaticLib */ = {
-			isa = PBXGroup;
-			children = (
-				84BFE01A1D2F75100027B6A5 /* AlipaySDK.h */,
-				84BFE01B1D2F75100027B6A5 /* APayAuthInfo.h */,
-				84BFE01C1D2F75100027B6A5 /* lib */,
-				84BFE01E1D2F75100027B6A5 /* RedpacketErrorCode.h */,
-				84BFE01F1D2F75100027B6A5 /* RedpacketMessageModel.h */,
-				84BFE0201D2F75100027B6A5 /* RedpacketOpenConst.h */,
-				84BFE0211D2F75100027B6A5 /* RedpacketViewControl.h */,
-				84BFE0221D2F75100027B6A5 /* resources */,
-				84BFE0251D2F75100027B6A5 /* YZHRedpacketBridge.h */,
-				84BFE0261D2F75100027B6A5 /* YZHRedpacketBridgeProtocol.h */,
-			);
-			path = RedpacketStaticLib;
-			sourceTree = "<group>";
-		};
-		84BFE01C1D2F75100027B6A5 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				84BFE01D1D2F75100027B6A5 /* libRedpacketLib.a */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		84BFE0221D2F75100027B6A5 /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				84BFE0231D2F75100027B6A5 /* redPackert_toSomebody@2x.png */,
-				84BFE0241D2F75100027B6A5 /* RedPacketResource.bundle */,
-			);
-			path = resources;
-			sourceTree = "<group>";
-		};
 		84CC39021C1FA93500AAE246 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -2823,10 +2785,41 @@
 			path = VoiceRecord;
 			sourceTree = "<group>";
 		};
+		84DABDE81D2F834B007C93C0 /* RedpacketStaticLib */ = {
+			isa = PBXGroup;
+			children = (
+				84DABDE91D2F834B007C93C0 /* lib */,
+				84DABDEB1D2F834B007C93C0 /* RedpacketErrorCode.h */,
+				84DABDEC1D2F834B007C93C0 /* RedpacketMessageModel.h */,
+				84DABDED1D2F834B007C93C0 /* RedpacketOpenConst.h */,
+				84DABDEE1D2F834B007C93C0 /* RedpacketViewControl.h */,
+				84DABDEF1D2F834B007C93C0 /* resources */,
+				84DABDF11D2F834B007C93C0 /* YZHRedpacketBridge.h */,
+				84DABDF21D2F834B007C93C0 /* YZHRedpacketBridgeProtocol.h */,
+			);
+			path = RedpacketStaticLib;
+			sourceTree = "<group>";
+		};
+		84DABDE91D2F834B007C93C0 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				84DABDEA1D2F834B007C93C0 /* libRedpacketLib.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		84DABDEF1D2F834B007C93C0 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				84DABDF01D2F834B007C93C0 /* RedPacketResource.bundle */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		E72D4FF01D1AA9200071413A /* Redpacket */ = {
 			isa = PBXGroup;
 			children = (
-				84BFE0191D2F75100027B6A5 /* RedpacketStaticLib */,
+				84DABDE81D2F834B007C93C0 /* RedpacketStaticLib */,
 				8402FBC31D2143270041F325 /* AliPay */,
 				E72D4FFE1D1AA9200071413A /* RedpacketSDK */,
 			);
@@ -3091,7 +3084,6 @@
 				05C82B351A3707FF0010F5D6 /* press_speak_icon_01@2x.png in Resources */,
 				05B4FFE11B41493B00274327 /* keyboard_10_on@2x.png in Resources */,
 				05A551901B4BB801009B02BC /* video_button2_off.png in Resources */,
-				84BFE0281D2F75100027B6A5 /* redPackert_toSomebody@2x.png in Resources */,
 				05C82B4C1A3720120010F5D6 /* playback_right_icon_01@2x.png in Resources */,
 				053D43241BEB1FD900B82A52 /* dialogue_snap_icon_on@3x.png in Resources */,
 				055CFABB1A4811A600789318 /* sendmsgsuc.caf in Resources */,
@@ -3123,7 +3115,6 @@
 				05D13FA51B54F9E40077C8AD /* status_icon02@2x.png in Resources */,
 				05B4FFB21B41493B00274327 /* handsfree_icon.png in Resources */,
 				84CC390A1C1FABE600AAE246 /* chat_location_normal@2x.png in Resources */,
-				84BFE0291D2F75100027B6A5 /* RedPacketResource.bundle in Resources */,
 				05B4FFCB1B41493B00274327 /* keyboard_05@2x.png in Resources */,
 				05B4FFE81B41493B00274327 /* mute_icon_on.png in Resources */,
 				05B4FFC51B41493B00274327 /* keyboard_03_on@2x.png in Resources */,
@@ -3180,6 +3171,7 @@
 				055C1FFF1B85E0A800A2BECE /* videoConf15.png in Resources */,
 				0568ADFD1C98F9E400DE59C4 /* ShareSDK.bundle in Resources */,
 				1DEB9D731A36D33800CBE43A /* personal_center_default_avatar@2x.png in Resources */,
+				84DABDF41D2F834B007C93C0 /* RedPacketResource.bundle in Resources */,
 				05A551921B4BB801009B02BC /* video_button2_on.png in Resources */,
 				05B4FFDD1B41493B00274327 /* keyboard_09_on@2x.png in Resources */,
 				05D13F961B54F9E40077C8AD /* animation_box03@2x.png in Resources */,
