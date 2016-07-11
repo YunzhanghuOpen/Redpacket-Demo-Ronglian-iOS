@@ -13,7 +13,7 @@
 #import "YZHRedpacketBridge.h"
 #import "RedpacketMessageModel.h"
 
-//	*此为演示地址* App需要修改为自己AppServer上的地址, 数据格式参考此地址给出的格式。
+//	*此为演示地址* App需要修改为自己AppServer上的地址, 数据格式参考此地址给出的格式。 详情http://yunzhanghu-com.oss-cn-qdjbp-a.aliyuncs.com/云账户红包SDK接入指南%28iOS%29%20v3.pdf
 static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
 
 @interface RedpacketConfig ()
