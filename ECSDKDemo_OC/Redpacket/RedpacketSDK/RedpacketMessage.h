@@ -14,6 +14,8 @@
 - (BOOL)isRedpacketOpenMessage;
 - (NSString *)redpacketString;
 - (NSDictionary *)redPacketDic;
+//红包调用
 - (NSString *)voluationModele:(RedpacketMessageModel *)model;
+//红包消息通知调用
 - (NSString *)voluationNoticeModele:(RedpacketMessageModel *)model;
 @end

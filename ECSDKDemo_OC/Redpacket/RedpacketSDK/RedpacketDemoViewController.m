@@ -183,8 +183,9 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         message.rpModel.redpacketSender.userNickname = [[DemoGlobalClass sharedInstance] getOtherNameWithPhone:message.from];//根据需求显示，拆红包界面的发送者用户名
         message.rpModel.redpacketSender.userAvatar  = nil;          //根据需求显示，拆红包界面的发送整的用户头像
         message.rpModel.redpacketSender.userId = message.from;
-        
+        // 判断是否是专属红包
         if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
+            message.rpModel = [RedpacketMessageModel redpacketMessageModelWithDic:[message redPacketDic]];
             [[ECDevice sharedInstance] getOtherPersonInfoWith:message.rpModel.toRedpacketReceiver.userId completion:^(ECError *error, ECPersonInfo *person) {
                 
                 message.rpModel.toRedpacketReceiver.userNickname = person.nickName; //根据需求显示，拆红包界面的定向接收者用户名
