@@ -47,7 +47,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
-                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMemberArray:members];
+                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMembers:members];
             }
         }];
         
@@ -83,7 +83,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         
     }];
     // 通知 红包 SDK 刷新 Token
-    [[YZHRedpacketBridge sharedBridge] reRequestRedpacketUserToken];
+//    [[YZHRedpacketBridge sharedBridge] reRequestRedpacketUserToken];
 }
 //
 //
@@ -121,7 +121,6 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:sendMessage];
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     ECMessage * message = [self.messageArray objectAtIndex:indexPath.row];

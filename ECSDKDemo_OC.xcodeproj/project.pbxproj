@@ -565,7 +565,6 @@
 		54FA441C1CAE498500BA460B /* pushring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 54FA441B1CAE498500BA460B /* pushring.caf */; };
 		8417867F1D1F8D0500711AB8 /* RedpacketTakenMessageTipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8417867E1D1F8D0500711AB8 /* RedpacketTakenMessageTipCell.m */; };
 		841E64391D214835005CEB8F /* libRedpacketLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 841E642F1D214835005CEB8F /* libRedpacketLib.a */; };
-		841E643A1D214835005CEB8F /* redPackert_toSomebody@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841E64351D214835005CEB8F /* redPackert_toSomebody@2x.png */; };
 		841E643B1D214835005CEB8F /* RedPacketResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 841E64361D214835005CEB8F /* RedPacketResource.bundle */; };
 		841E64421D21487E005CEB8F /* AlipaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 841E643E1D21487E005CEB8F /* AlipaySDK.a */; };
 		841E64431D21487E005CEB8F /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 841E64411D21487E005CEB8F /* AlipaySDK.bundle */; };
@@ -1368,7 +1367,6 @@
 		841E64311D214835005CEB8F /* RedpacketMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketMessageModel.h; sourceTree = "<group>"; };
 		841E64321D214835005CEB8F /* RedpacketOpenConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketOpenConst.h; sourceTree = "<group>"; };
 		841E64331D214835005CEB8F /* RedpacketViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedpacketViewControl.h; sourceTree = "<group>"; };
-		841E64351D214835005CEB8F /* redPackert_toSomebody@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redPackert_toSomebody@2x.png"; sourceTree = "<group>"; };
 		841E64361D214835005CEB8F /* RedPacketResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RedPacketResource.bundle; sourceTree = "<group>"; };
 		841E64371D214835005CEB8F /* YZHRedpacketBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHRedpacketBridge.h; sourceTree = "<group>"; };
 		841E64381D214835005CEB8F /* YZHRedpacketBridgeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHRedpacketBridgeProtocol.h; sourceTree = "<group>"; };
@@ -2773,7 +2771,6 @@
 		841E64341D214835005CEB8F /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				841E64351D214835005CEB8F /* redPackert_toSomebody@2x.png */,
 				841E64361D214835005CEB8F /* RedPacketResource.bundle */,
 			);
 			path = resources;
@@ -3062,7 +3059,6 @@
 				055C20391B85E0A800A2BECE /* videoConfAdd_on.png in Resources */,
 				05B4FF911B41493A00274327 /* call_answer_button@2x.png in Resources */,
 				055C20291B85E0A800A2BECE /* videoConf60.png in Resources */,
-				841E643A1D214835005CEB8F /* redPackert_toSomebody@2x.png in Resources */,
 				055C20251B85E0A800A2BECE /* videoConf58.png in Resources */,
 				E72D50101D1AA9200071413A /* RedpacketCellResource.bundle in Resources */,
 				055CFAB81A4811A600789318 /* chat_placeholder_image@2x.png in Resources */,
