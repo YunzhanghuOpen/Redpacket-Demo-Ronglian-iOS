@@ -29,6 +29,8 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
     dispatch_once(&onceToken, ^{
         config = [[RedpacketConfig alloc] init];
         [[YZHRedpacketBridge sharedBridge] setDataSource:config];
+        [[YZHRedpacketBridge sharedBridge] setDelegate:config];
+        [YZHRedpacketBridge sharedBridge].redacketURLScheme = @"com.redpacket.RLCloudDemo";//支付宝回调使用Key;
     });
     return config;
 }
@@ -40,7 +42,7 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
 
 + (void)logout
 {
-    [[YZHRedpacketBridge sharedBridge] redpacketUserLoginOut];
+//    [[YZHRedpacketBridge sharedBridge] redpacketUserLoginOut];
 }
 
 + (void)reconfig
@@ -53,19 +55,15 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
 {
     NSString *partner = [dict valueForKey:@"partner"];
     NSString *appUserId = [dict valueForKey:@"user_id"];
-    unsigned long timeStamp = [[dict valueForKey:@"timestamp"] unsignedLongValue];
+    NSString *timeStamp = [NSString stringWithFormat:@"%@",[dict valueForKey:@"timestamp"]];
     NSString *sign = [dict valueForKey:@"sign"];
     
     
-    [[YZHRedpacketBridge sharedBridge] configWithSign:sign
-                                              partner:partner
-                                            appUserId:appUserId
-                                            timeStamp:timeStamp];
+    [[YZHRedpacketBridge sharedBridge] configWithSign:sign partner:partner appUserId:appUserId timestamp:timeStamp];
 }
 
 - (void)config
 {
-    if(![[YZHRedpacketBridge sharedBridge] isRedpacketTokenExist]) {
         NSString *userId = [self userId];
         
         if (userId) {
@@ -85,7 +83,6 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
                                                                                   NSLog(@"request redpacket sign failed:%@", error);
                                                                               }] start];
         }
-    }
 }
 
 - (RedpacketUserInfo *)redpacketUserInfo
@@ -105,4 +102,10 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
     }
     return nil;
 }
+
+- (void)redpacketError:(NSString *)error withErrorCode:(NSInteger)code
+{
+    [self config];
+}
+
 @end

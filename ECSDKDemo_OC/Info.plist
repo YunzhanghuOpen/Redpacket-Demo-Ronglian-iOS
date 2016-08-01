@@ -39,7 +39,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx718c6680d68744a4</string>
-				<string>alipayredpacket</string>
+				<string>com.redpacket.RLCloudDemo</string>
 			</array>
 		</dict>
 	</array>

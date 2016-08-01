@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "YZHRedpacketBridgeProtocol.h"
 
-@interface RedpacketConfig : NSObject <YZHRedpacketBridgeDataSource>
+@interface RedpacketConfig : NSObject <YZHRedpacketBridgeDataSource,YZHRedpacketBridgeDelegate>
 
 + (void)config;
 + (void)reconfig;
