@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../../redpacketUI/yzh-redpacket/RedpacketRequestDataLib/RedpacketRequestDataLib/RedpacketBridge/YZHRedpacketBridge.m"
-            timestampString = "491729879.832754"
+            filePath = "ECSDKDemo_OC/Redpacket/RedpacketSDK/RedpacketConfig.m"
+            timestampString = "492926625.771608"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
-            landmarkName = "-configWithSign:partner:appUserId:timestamp:"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-redpacketError:withErrorCode:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

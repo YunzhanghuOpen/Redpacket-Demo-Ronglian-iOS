@@ -1,8 +1,8 @@
 //
-//  RedpacketOpenConst.h
-//  ChatDemo-UI3.0
+//  RPRedpacketTool.h
+//  RedpacketRequestDataLib
 //
-//  Created by Mr.Yang on 16/3/17.
+//  Created by Mr.Yang on 16/7/26.
 //  Copyright © 2016年 Mr.Yang. All rights reserved.
 //
 
@@ -10,18 +10,17 @@
 #import <UIKit/UIKit.h>
 #import "YZHRedpacketBridge.h"
 
+typedef void(^RedpacketSuccessBlock)(void);
+
+
+UIKIT_EXTERN NSString *const RedpacketSDKVersion;
+
+
 /*---------------------------------------
  *  Defines
  ---------------------------------------*/
 
 #define rpWeakSelf __weak typeof(self) weakSelf = self
-
-#ifdef DEBUG
-#define RPLog(...) NSLog(__VA_ARGS__)
-#else
-#define RPLog(...)
-#endif
-
 
 #define rpURL(...) [NSURL URLWithString:__VA_ARGS__]
 #define rpString(...) [NSString stringWithFormat:__VA_ARGS__]
@@ -35,9 +34,8 @@
 #define RPDebugOpen  [YZHRedpacketBridge sharedBridge].isDebug
 
 #define RPDebug(...)  if(RPDebugOpen) {\
-NSLog(__VA_ARGS__);\
+    NSLog(__VA_ARGS__);\
 }\
-
 
 /*---------------------------------------
  *  Const
@@ -54,6 +52,11 @@ static uint const rp_textColorGray = 0x9e9e9e;
 static uint const rp_backGroundColorGray = 0xe3e3e3;
 
 
+UIKIT_STATIC_INLINE UIImage * rp_redpacketImageWithName(NSString *name)
+{
+    NSString *imageName = [@"RedpacketCellResource.bundle/" stringByAppendingString:name];
+    return [UIImage imageNamed:imageName];
+}
 
 UIKIT_STATIC_INLINE UIColor * rp_hexColor(uint color)
 {
@@ -72,77 +75,15 @@ UIKIT_STATIC_INLINE BOOL rp_isEmpty(id thing) {
         && [(NSArray *)thing count] == 0);
 }
 
-#pragma mark - RedpacketNotifaction
+UIImage *imageWithColor(UIColor *color);
 
 /**
- *  支付宝支付完成通知
+ *  网络请求，请求头, 是否需要添加token。【Token请求不需要添加Token】
  */
-UIKIT_EXTERN NSString *const RedpacketAlipayNotifaction;
+NSDictionary *getRequestHeaderNeedToken(BOOL need);
 
-#pragma mark - RedpacketView
+@interface RPRedpacketTool : NSObject
 
-/**
- * 红包的名字（例如：云红包）
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketOrgName;
 
-/**
- *  红包的祝福语
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketGreeting;
 
-/**
- *  红包接收消息的Cell标记
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketSign;
-
-/**
- *  是否是红包的标记
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketTakenMessageSign;
-
-/**
- *  红包的发送方ID
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketSenderId;
-
-/**
- *  红包的发送方
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketSenderNickname;
-
-/**
- *  红包的接收方ID
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketReceiverId;
-
-/**
- *  红包的接收方
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketReceiverNickname;
-
-/**
- *  红包ID
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketID;
-
-/**
- *  提示收到群红包的 cmd
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedapcketCmd;
-
-/**
- *  定向红包的Type类型
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedapcketToAnyone;
-
-/**
- *  定向红包的接收者id
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedapcketToReceiver;
-
-/**
- *  红包抢完后的透传消息是通过点对点Cmd消息发送，所以需要带上红包所在的群组ID
- */
-UIKIT_EXTERN NSString *const RedpacketKeyRedpacketCmdToGroup;
-
+@end

@@ -14,7 +14,7 @@
 #import "RedpacketMessageModel.h"
 
 //	*此为演示地址* App需要修改为自己AppServer上的地址, 数据格式参考此地址给出的格式。 详情http://yunzhanghu-com.oss-cn-qdjbp-a.aliyuncs.com/云账户红包SDK接入指南%28iOS%29%20v3.pdf
-static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
+static NSString *requestUrl = @"http://10.10.1.10:32802/api/sign?duid=";
 
 @interface RedpacketConfig ()
 
@@ -31,6 +31,7 @@ static NSString *requestUrl = @"https://rpv2.yunzhanghu.com/api/sign?duid=";
         [[YZHRedpacketBridge sharedBridge] setDataSource:config];
         [[YZHRedpacketBridge sharedBridge] setDelegate:config];
         [YZHRedpacketBridge sharedBridge].redacketURLScheme = @"com.redpacket.RLCloudDemo";//支付宝回调使用Key;
+        [YZHRedpacketBridge sharedBridge].isDebug = YES;
     });
     return config;
 }

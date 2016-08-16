@@ -567,6 +567,7 @@
 		8402FBCA1D2143270041F325 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8402FBC81D2143270041F325 /* AlipaySDK.bundle */; };
 		8417867F1D1F8D0500711AB8 /* RedpacketTakenMessageTipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8417867E1D1F8D0500711AB8 /* RedpacketTakenMessageTipCell.m */; };
 		8489583E1C225F9B008A65AA /* location_GPS@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8489583D1C225F9B008A65AA /* location_GPS@2x.png */; };
+		849D1C2D1D564C43000D59B1 /* libRedpacketLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DABDEA1D2F834B007C93C0 /* libRedpacketLib.a */; };
 		84BFE0171D2F6B580027B6A5 /* dialogue_redacket_icon_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BFE0151D2F6B580027B6A5 /* dialogue_redacket_icon_on@2x.png */; };
 		84BFE0181D2F6B580027B6A5 /* dialogue_redpacket_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BFE0161D2F6B580027B6A5 /* dialogue_redpacket_icon@2x.png */; };
 		84CC39051C1FA93500AAE246 /* ECLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC39041C1FA93500AAE246 /* ECLocationViewController.m */; };
@@ -574,7 +575,6 @@
 		84CC390B1C1FABE600AAE246 /* chat_location_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CC39071C1FABE600AAE246 /* chat_location_normal@3x.png */; };
 		84CC39111C1FE3B900AAE246 /* ECDeviceVoiceRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC39101C1FE3B900AAE246 /* ECDeviceVoiceRecordView.m */; };
 		84CC39151C1FFA4000AAE246 /* ECLocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CC39141C1FFA4000AAE246 /* ECLocationPoint.m */; };
-		84DABDF31D2F834B007C93C0 /* libRedpacketLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DABDEA1D2F834B007C93C0 /* libRedpacketLib.a */; };
 		84DABDF41D2F834B007C93C0 /* RedPacketResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 84DABDF01D2F834B007C93C0 /* RedPacketResource.bundle */; };
 		84DE42681C210D4700E2C45F /* ChatViewLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE42671C210D4700E2C45F /* ChatViewLocationCell.m */; };
 		84DE42731C2142F000E2C45F /* chatView_location_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84DE42711C2142F000E2C45F /* chatView_location_map@2x.png */; };
@@ -1447,6 +1447,7 @@
 				548393A61CFD41F800978DB8 /* libresolv.9.tbd in Frameworks */,
 				057528D11CA53F2000B4F402 /* libxml2.2.tbd in Frameworks */,
 				057528CF1CA53E6100B4F402 /* WebKit.framework in Frameworks */,
+				849D1C2D1D564C43000D59B1 /* libRedpacketLib.a in Frameworks */,
 				54A9DB8D1D05601400E19974 /* libCCPiPhoneSDK_FullLib.a in Frameworks */,
 				0568AE081C98FC9000DE59C4 /* JavaScriptCore.framework in Frameworks */,
 				05F53F0D1C5AFFEA0003213A /* libc++.tbd in Frameworks */,
@@ -1467,7 +1468,6 @@
 				0568ADFC1C98F9E400DE59C4 /* MOBFoundation.framework in Frameworks */,
 				05967CBB1A30634C00C98C86 /* MobileCoreServices.framework in Frameworks */,
 				05967CB91A30634300C98C86 /* AudioToolbox.framework in Frameworks */,
-				84DABDF31D2F834B007C93C0 /* libRedpacketLib.a in Frameworks */,
 				05967CB71A30633B00C98C86 /* CoreGraphics.framework in Frameworks */,
 				05967CB51A30630200C98C86 /* AVFoundation.framework in Frameworks */,
 			);
