@@ -116,9 +116,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     [self.orgLabel setTextAlignment:NSTextAlignmentLeft];
     [self.bubbleBackgroundView addSubview:self.orgLabel];
     
-    // 设置红包厂商图标
-    icon = [UIImage imageNamed:REDPACKET_BUNDLE(@"redPacket_yunAccount_icon")];
-    self.orgIconView = [[UIImageView alloc] initWithImage:icon];
+//    self.orgIconView = [[UIImageView alloc] initWithImage:icon];
     [self.bubbleBackgroundView addSubview:self.orgIconView];
     
     
@@ -149,7 +147,15 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.messageContentView.frame = messageContentViewRect;
         
         self.bubbleBackgroundView.frame = CGRectMake(-8, 0,198, 94);
-        UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_receiver_bg")];
+        UIImage *image;
+        if ([self.message isTransfer]) {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"transfer_receiver_bg")];
+            self.greetingLabel.text = @"已收到对方转账";
+        }else
+        {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_receiver_bg")];
+        }
+
         self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
     } else {
         
@@ -158,10 +164,22 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.messageContentView.frame = messageContentViewRect;
         
         self.bubbleBackgroundView.frame = CGRectMake(-8, 0, 198, 94);
-        UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
+        UIImage *image;
+        if ([self.message isTransfer]) {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"transfer_sender_bg")];
+            self.greetingLabel.text = @"对方已收到转账";
+        }else
+        {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
+        }
         self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
     }
-    
+    if ([self.message isTransfer]) {
+        UIImage *icon = [UIImage imageNamed:REDPACKET_BUNDLE(@"redPacket_transferIcon")];
+        self.iconView.frame = CGRectMake(13, 19, 34, 34);
+        [self.iconView setImage:icon];
+        self.subLabel.text = [NSString stringWithFormat:@"%@元",self.message.rpModel.redpacket.redpacketMoney];
+    }
     [self setNeedsLayout];
 }
 

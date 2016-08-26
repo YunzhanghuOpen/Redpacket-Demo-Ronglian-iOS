@@ -12,5 +12,9 @@
 @property(nonatomic,strong)RedpacketMessageModel * rpModel;
 - (BOOL)isRedpacket;
 - (BOOL)isRedpacketOpenMessage;
+- (BOOL)isTransfer;
 - (NSString *)redpacketString;
+- (NSDictionary *)redPacketDic;
+- (NSString *)voluationModele:(RedpacketMessageModel *)model;
+- (NSString *)voluationNoticeModele:(RedpacketMessageModel *)model;
 @end
