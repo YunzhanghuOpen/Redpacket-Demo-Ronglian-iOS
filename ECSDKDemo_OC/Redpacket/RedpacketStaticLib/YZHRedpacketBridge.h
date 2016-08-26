@@ -17,17 +17,16 @@
 @property (nonatomic, weak) id <YZHRedpacketBridgeDataSource>dataSource;
 
 /**
- *  是否是调试模式
+ *  是否是调试模式, 默认为NO
  */
 @property (nonatomic, assign)   BOOL isDebug;
 
 /**
- *  支付宝回调, 默认为当前App的Bundle Identifier
+ *  支付宝回调当前APP时的URL Scheme, 默认为当前App的Bundle Identifier
  */
 @property (nonatomic, copy)  NSString *redacketURLScheme;
 
 + (YZHRedpacketBridge *)sharedBridge;
-
 
 @end
 
@@ -51,14 +50,12 @@
 @interface YZHRedpacketBridge (SignMethod)
 
 /**
- *  签名获取Token的方式，判断是否需要更新签名
- *  用户切换或者红包Token更新都需要更新Sign
+ *  判断是否需要调用configWithSign:partner:appUserId:timestamp
  */
 - (BOOL)isNeedUpdateSignWithUserId:(NSString *)userId;
 
 /**
  *  通过签名的方式获取Token (以下参数的获取方式见RestAPI集成文档)
- *  此方法目前适应于：腾讯IM， 未适配的可联系我们
  *
  *  @param sign
  *  @param partner
@@ -69,7 +66,6 @@
                      partner:(NSString *)partner
                    appUserId:(NSString *)appUserid
                    timestamp:(NSString *)timestamp;
-
 @end
 
 

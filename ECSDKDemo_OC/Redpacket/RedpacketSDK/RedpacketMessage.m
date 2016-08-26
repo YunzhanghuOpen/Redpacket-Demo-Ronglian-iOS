@@ -13,14 +13,14 @@
     [self willChangeValueForKey:@"rpModel"];
     objc_setAssociatedObject(self, @"RedpacketMessageModel", rpModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [rpModel redpacketMessageModelToDic];
-//    if (rp){
-//        NSError * error;
-//        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
-//        if (!error) {
-//            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-//            self.userData = rpString;
-//        }
-//    }
+    //    if (rp){
+    //        NSError * error;
+    //        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
+    //        if (!error) {
+    //            NSString * rpString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //            self.userData = rpString;
+    //        }
+    //    }
     [self didChangeValueForKey:@"rpModel"];
 }
 - (RedpacketMessageModel *)rpModel{
@@ -28,9 +28,7 @@
 }
 
 - (BOOL)isRedpacket{
-    if (self.rpModel) {
-        return YES;
-    }
+    
     if (self.userData) {
         NSError * error;
         NSString * userString = self.userData;
@@ -43,6 +41,23 @@
         }
     }
     return NO;
+}
+
+- (BOOL)isTransfer{
+    
+    if (self.userData) {
+        NSError * error;
+        NSString * userString = self.userData;
+        NSData * userDate = [userString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary * userMessage = [NSJSONSerialization JSONObjectWithData:userDate options:NSJSONReadingMutableContainers error:&error];
+        if (userMessage && [RedpacketMessageModel isRedpacketTransferMessage:userMessage]) {
+            RedpacketMessageModel * redpacketModel = [RedpacketMessageModel redpacketMessageModelWithDic:userMessage];
+            self.rpModel = redpacketModel;
+            return YES;
+        }
+    }
+    return NO;
+    
 }
 
 - (BOOL)isRedpacketOpenMessage
@@ -62,6 +77,9 @@
     if (!self.rpModel) {
         return @"";
     }
+    if ([self isTransfer]) {
+        return @"[转账]";
+    }
     
     if (RedpacketMessageTypeRedpacket == self.rpModel.messageType) {
         return [NSString stringWithFormat:@"[%@]%@", self.rpModel.redpacket.redpacketOrgName, self.rpModel.redpacket.redpacketGreeting];
@@ -71,7 +89,7 @@
         if (self.isGroup) {
             
             if([self.rpModel.redpacketSender.userId isEqualToString:self.rpModel.redpacketReceiver.userId]) {
-                s = @"你领取了自己的红包";
+                s = @"你领取了自己发的红包";
             }
             else if (self.rpModel.isRedacketSender)
             {
@@ -81,14 +99,14 @@
             {
                 s = [NSString stringWithFormat:@"你领取了%@的红包",self.rpModel.redpacketSender.userNickname];
             }
-
+            
         }else
         {
             if ([self.rpModel.currentUser.userId isEqualToString:self.rpModel.redpacketSender.userId]) {
                 s = [NSString stringWithFormat:@"%@领取了你的红包",self.rpModel.redpacketReceiver.userNickname];
             }else
             {
-                s = [NSString stringWithFormat:@"你领取了%@的红包",self.rpModel.redpacketSender.userNickname];
+                s = [NSString stringWithFormat:@"你领取了%@",self.rpModel.redpacketSender.userNickname];
             }
         }
         return s;
@@ -111,7 +129,7 @@
 {
     objc_setAssociatedObject(self, @"RedpacketMessageModel", model, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     NSDictionary * rp = [model redpacketMessageModelToDic];
-    if (rp){                   
+    if (rp){
         NSError * error;
         NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
         if (!error) {

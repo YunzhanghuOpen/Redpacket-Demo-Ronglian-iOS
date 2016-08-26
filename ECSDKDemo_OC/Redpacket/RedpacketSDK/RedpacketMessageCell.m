@@ -28,7 +28,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 @property(strong, nonatomic) UILabel *subLabel; // 显示 "查看红包"
 @property(strong, nonatomic) UILabel *orgLabel;
 @property(strong, nonatomic) UIImageView *iconView;
-@property(strong, nonatomic) UILabel *orgTypeLabel;
+@property(strong, nonatomic) UIImageView *orgIconView;
 
 @property(nonatomic, strong) UIImageView *bubbleBackgroundView;
 
@@ -67,7 +67,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 
 - (void)initialize {
     
-
+    
     self.bubbleBackgroundView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
@@ -116,22 +116,15 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     [self.orgLabel setTextAlignment:NSTextAlignmentLeft];
     [self.bubbleBackgroundView addSubview:self.orgLabel];
     
-    // 设置红包类型
-    self.orgTypeLabel = [[UILabel alloc] init];
-    self.orgTypeLabel.textColor = rp_hexColor(0xf14e46);
-    self.orgTypeLabel.font = [UIFont systemFontOfSize:12.0];
-    [self.bubbleBackgroundView addSubview:self.orgTypeLabel];
+    //    self.orgIconView = [[UIImageView alloc] initWithImage:icon];
+    [self.bubbleBackgroundView addSubview:self.orgIconView];
     
     
-    CGRect rt = self.orgTypeLabel.frame;
-    rt.origin = CGPointMake(145, 75);
-    if (self.isSender) {
-        rt.origin = CGPointMake(141, 75);
-    }
-    rt.size = CGSizeMake(51, 14);
-    self.orgTypeLabel.frame = rt;
-    [self.fromId removeFromSuperview];//名字隐藏
-
+    CGRect rt = self.orgIconView.frame;
+    rt.origin = CGPointMake(165, 75);
+    rt.size = CGSizeMake(21, 14);
+    self.orgIconView.frame = rt;
+    
 }
 
 - (void)bubbleViewWithData:(ECMessage *)message{
@@ -142,8 +135,8 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     NSString *messageString = redpacketMessage.redpacket.redpacketGreeting;
     self.greetingLabel.text = messageString;
     
-//    NSString *orgString = redpacketMessage.redpacket.redpacketOrgName;
-    self.orgLabel.text = @"容联云红包";//orgString;
+    NSString *orgString = redpacketMessage.redpacket.redpacketOrgName;
+    self.orgLabel.text = orgString;
     
     
     CGRect messageContentViewRect = self.messageContentView.frame;
@@ -154,7 +147,15 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.messageContentView.frame = messageContentViewRect;
         
         self.bubbleBackgroundView.frame = CGRectMake(-8, 0,198, 94);
-        UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_receiver_bg")];
+        UIImage *image;
+        if ([self.message isTransfer]) {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"transfer_receiver_bg")];
+            self.greetingLabel.text = @"已收到对方转账";
+        }else
+        {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_receiver_bg")];
+        }
+        
         self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
     } else {
         
@@ -163,16 +164,22 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.messageContentView.frame = messageContentViewRect;
         
         self.bubbleBackgroundView.frame = CGRectMake(-8, 0, 198, 94);
-        UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
-        self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
-    }
-        if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
-            self.orgTypeLabel.text = @"专属红包";
+        UIImage *image;
+        if ([self.message isTransfer]) {
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"transfer_sender_bg")];
+            self.greetingLabel.text = @"对方已收到转账";
         }else
         {
-            self.orgTypeLabel.text = @"";
+            image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
         }
-    
+        self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
+    }
+    if ([self.message isTransfer]) {
+        UIImage *icon = [UIImage imageNamed:REDPACKET_BUNDLE(@"redPacket_transferIcon")];
+        self.iconView.frame = CGRectMake(13, 19, 34, 34);
+        [self.iconView setImage:icon];
+        self.subLabel.text = [NSString stringWithFormat:@"%@元",self.message.rpModel.redpacket.redpacketMoney];
+    }
     [self setNeedsLayout];
 }
 
@@ -188,7 +195,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     }
     
     CGFloat bubbleViewY = CGRectGetMinY(self.portraitImg.frame);
-
+    
     
     CGRect frame = CGRectMake(bubbleX,
                               bubbleViewY,
@@ -200,13 +207,13 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 
 - (void)tap:(UITapGestureRecognizer *)gesture {
     if (gesture.state == UIGestureRecognizerStateEnded) {
-//        [self.delegate didTapMessageCell:self.model];
+        //        [self.delegate didTapMessageCell:self.model];
         [self.redpacketDelegate redpacketCell:self didTap:self.message];
     }
 }
 
 +(CGFloat)getHightOfCellViewWith:(ECMessageBody *)message {
-//    CGSize bubbleSize = CGSizeMake(198, 94);
+    //    CGSize bubbleSize = CGSizeMake(198, 94);
     return 110;
 }
 

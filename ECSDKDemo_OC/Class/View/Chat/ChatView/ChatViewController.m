@@ -132,7 +132,7 @@ const char KMenuViewKey;
     UIView *_moreView;
 #warning 语音页面
     ECDeviceVoiceRecordView *_recordView;
-
+    
 #warning 变声页面
     UIView *_changeVoiceView;
     UIView *_footView;
@@ -189,10 +189,10 @@ const char KMenuViewKey;
     self.tableView.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     isScrollToButtom = YES;
-
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewWillBeginDragging:)];
     [self.tableView addGestureRecognizer:tap];
-
+    
     [self.view addSubview:self.tableView];
     
     UIView *titleview = [[UIView alloc] initWithFrame:CGRectMake(160.0f, 0.0f, 120.0f, 44.0f)];
@@ -260,7 +260,7 @@ const char KMenuViewKey;
     
     char myBuffer[4] = {'\xe2','\x80','\x85',0};
     _deleteAtStr = [NSString stringWithCString:myBuffer encoding:NSUTF8StringEncoding];
-
+    
 }
 
 -(NSString*)getDeviceWithType:(ECDeviceType)type{
@@ -315,7 +315,7 @@ const char KMenuViewKey;
 //获取会话消息里面为图片消息的路径数组
 - (NSArray *)getImageMessageLocalPath
 {
-   NSArray *imageMessage = [[DeviceDBHelper sharedInstance] getAllTypeMessageLocalPathOfSessionId:self.sessionId type:MessageBodyType_Image];
+    NSArray *imageMessage = [[DeviceDBHelper sharedInstance] getAllTypeMessageLocalPathOfSessionId:self.sessionId type:MessageBodyType_Image];
     NSMutableArray *localPathArray = [NSMutableArray array];
     NSString *localPath = [NSString string];
     for (int index = 0; index < imageMessage.count; index++) {
@@ -353,7 +353,7 @@ const char KMenuViewKey;
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-
+    
     [self.tableView reloadData];
     
     dispatch_once(&scrollBTMOnce , ^{
@@ -471,8 +471,8 @@ const char KMenuViewKey;
     }
     [self.tableView reloadData];
     self.tableView.contentOffset = CGPointMake(0.0f, self.tableView.contentSize.height-offsetOfButtom);
-
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:arraycount inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    
+    //    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:arraycount inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 //清空聊天记录
@@ -488,7 +488,7 @@ const char KMenuViewKey;
     hud.removeFromSuperViewOnHide = YES;
     
     [self performSelectorOnMainThread:@selector(clearTableView) withObject:nil waitUntilDone:[NSThread isMainThread]];
-
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[DeviceDBHelper sharedInstance] deleteAllMessageSaveSessionOfSession:self.sessionId];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -508,7 +508,7 @@ const char KMenuViewKey;
 
 //返回上一层
 -(void)popViewController:(id)sender {
-        
+    
     isScrollToButtom = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:KNOTIFICATION_ScrollTable object:nil];
@@ -602,7 +602,7 @@ const char KMenuViewKey;
         if (![message.sessionId isEqualToString:self.sessionId]) {
             return;
         }
-
+        
         if (message.messageState==ECMessageState_Receive && !message.isGroup) {
             [self startTimer];
         }
@@ -611,7 +611,7 @@ const char KMenuViewKey;
         [self.messageArray addObject:message];
         [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.messageArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }
-
+    
     if (self.messageArray.count>0){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_ScrollTable object:nil];
@@ -666,7 +666,7 @@ const char KMenuViewKey;
                         _emojiView.frame=frame;
                     }
                 };
-
+                
                 [UIView animateWithDuration:0.25 delay:0.1f options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState) animations:animations completion:nil];
             }
                 break;
@@ -699,7 +699,7 @@ const char KMenuViewKey;
     [_footView removeFromSuperview];
     _footView = nil;
     isScrollToButtom = NO;
-//    _footView.hidden = YES;
+    //    _footView.hidden = YES;
     if (_isDisplayKeyborad) {
         [self.view endEditing:YES];
     } else {
@@ -708,7 +708,7 @@ const char KMenuViewKey;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     id content = [self.messageArray objectAtIndex:indexPath.row];
     if ([content isKindOfClass:[NSNull class]]) {
         return 44.0f;
@@ -797,7 +797,7 @@ const char KMenuViewKey;
             if (body.localPath.length > 0) {
                 body.localPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:body.localPath.lastPathComponent];
             }
-
+            
             height = [ChatViewPreviewCell getHightOfCellViewWith:message.messageBody];
         }
             break;
@@ -824,7 +824,7 @@ const char KMenuViewKey;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     id cellContent = [self.messageArray objectAtIndex:indexPath.row];
     
     if ([cellContent isKindOfClass:[NSNull class]]) {
@@ -1010,7 +1010,7 @@ const char KMenuViewKey;
         default:
             break;
     }
-
+    
     [ShareSDK share:SSDKPlatformSubTypeWechatSession parameters:parameters onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
         switch (state) {
             case SSDKResponseStateSuccess:
@@ -1045,7 +1045,7 @@ const char KMenuViewKey;
         
         ChatViewCell *resendCell = [userInfo objectForKey:KResponderCustomTableCellKey];
         ECMessage *message = resendCell.displayMessage;
-
+        
         UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:nil message:@"重发该消息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重发",nil];
         objc_setAssociatedObject(alertView, &KAlertResendMessage, message, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         alertView.tag = Alert_ResendMessage_Tag;
@@ -1058,7 +1058,7 @@ const char KMenuViewKey;
             
             id viewController = [[NSClassFromString(@"SettingViewController") alloc] init];
             [self.navigationController pushViewController:viewController animated:YES];
-
+            
         } else {
             ContactDetailViewController *contactVC = [[ContactDetailViewController alloc] init];
             contactVC.dict = @{nameKey:[[DemoGlobalClass sharedInstance] getOtherNameWithPhone:sendPhone],phoneKey:sendPhone,imageKey:[[DemoGlobalClass sharedInstance] getOtherImageWithPhone:sendPhone]};
@@ -1091,7 +1091,7 @@ const char KMenuViewKey;
 -(void)videoCellPlayVideoTap:(ECMessage*)message {
     
     ECVideoMessageBody *mediaBody = (ECVideoMessageBody*)message.messageBody;
-
+    
     if (message.messageState != ECMessageState_Receive && mediaBody.localPath.length>0) {
         [self createMPPlayerController:mediaBody.localPath];
         return;
@@ -1109,7 +1109,7 @@ const char KMenuViewKey;
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError) {
-
+                
                 [strongSelf createMPPlayerController:mediaBody.localPath];
                 NSLog(@"%@",[NSString stringWithFormat:@"file://localhost%@", mediaBody.localPath]);
             }
@@ -1200,7 +1200,7 @@ const char KMenuViewKey;
         [self.tableView endUpdates];
         self.playVoiceMessage = nil;
     }
-
+    
     __weak __typeof(self) weakSelf = self;
     if (isplay.boolValue) {
         self.playVoiceMessage = message;
@@ -1232,7 +1232,7 @@ const char KMenuViewKey;
     
     ECVoiceMessageBody* mediaBody = (ECVoiceMessageBody*)message.messageBody;
     if (mediaBody.localPath.length>0 && [[NSFileManager defaultManager] fileExistsAtPath:mediaBody.localPath]) {
-         [self playVoiceMessage:message];
+        [self playVoiceMessage:message];
     } else if (message.messageState == ECMessageState_Receive && mediaBody.remotePath.length>0){
         MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
@@ -1262,7 +1262,7 @@ const char KMenuViewKey;
 }
 
 -(void)imageCellBubbleViewTap:(ECMessage*)message{
-        
+    
     if (message.messageBody.messageBodyType >= MessageBodyType_Voice) {
         ECImageMessageBody *mediaBody = (ECImageMessageBody*)message.messageBody;
         
@@ -1338,7 +1338,7 @@ const char KMenuViewKey;
         
         self.photos = photoArray;
     }
-
+    
     MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     photoBrowser.displayActionButton = YES;
     photoBrowser.displayNavArrows = NO;
@@ -1350,7 +1350,7 @@ const char KMenuViewKey;
     photoBrowser.enableSwipeToDismiss = NO;
     photoBrowser.isOpen = _isOpenSavePhoto;
     [photoBrowser setCurrentPhotoIndex:currentIndex];
-
+    
     [self.navigationController pushViewController:photoBrowser animated:YES];
 }
 
@@ -1371,7 +1371,7 @@ const char KMenuViewKey;
  *@brief 生成工具栏
  */
 -(void)createToolBarView {
-
+    
     _containerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.tableView.frame.origin.y+self.tableView.frame.size.height, self.view.frame.size.width, ToolbarDefaultTotalHeigth)];
     _containerView.backgroundColor = [UIColor colorWithRed:225.0f/255.0f green:225.0f/255.0f blue:225.0f/255.0f alpha:1.0f];
     [self.view addSubview:_containerView];
@@ -1506,7 +1506,7 @@ const char KMenuViewKey;
 }
 
 -(void)createMoreView {
-#pragma mark -红包- -----------------添加红包选项
+#pragma mark 红包-----------------添加红包选项
     _moreView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, ToolbarInputViewHeight, _containerView.frame.size.width, ToolbarMoreViewHeight1)];
     _moreView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     _moreView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
@@ -1524,16 +1524,16 @@ const char KMenuViewKey;
     } else {
         
         if ([self.sessionId hasPrefix:@"g"]) {
-            imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"chat_location_normal",@"dialogue_redpacket_icon@2x"];
+            imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"chat_location_normal",@"chat_location_normal"];
             textArr = @[@"图片",@"拍摄",@"位置",@"红包"];
             selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"locationBtnTap:",@"redPacketTap:"];
             
         } else {
             if ( ![self.sessionId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                 
-                imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_phone_icon",@"dialogue_video_icon",@"dialogue_snap_icon",@"chat_location_normal",@"dialogue_redpacket_icon@2x"];
-                textArr = @[@"图片",@"拍摄",@"音频",@"视频",@"阅后即焚",@"位置",@"红包"];
-                selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"voiceCallBtnTap:",@"videoCallBtnTap:",@"snapFireBtnTap:",@"locationBtnTap:",@"redPacketTap:"];
+                imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_phone_icon",@"dialogue_video_icon",@"dialogue_snap_icon",@"chat_location_normal",@"chat_location_normal",@"chat_location_normal"];
+                textArr = @[@"图片",@"拍摄",@"音频",@"视频",@"阅后即焚",@"位置",@"红包",@"转账"];
+                selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"voiceCallBtnTap:",@"videoCallBtnTap:",@"snapFireBtnTap:",@"locationBtnTap:",@"redPacketTap:",@"transferTap:"];
             } else {
                 imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_snap_icon",@"chat_location_normal"];
                 textArr = @[@"图片",@"拍摄",@"阅后即焚",@"位置"];
@@ -1542,7 +1542,7 @@ const char KMenuViewKey;
         }
     }
     
-    CGFloat buttonW = 50.0f;
+    CGFloat buttonW = 60.0f;
     CGFloat buttonH = 50.0f;
     CGFloat buttonX;
     CGFloat buttonY;
@@ -1565,7 +1565,7 @@ const char KMenuViewKey;
         [extenBtn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
         [extenBtn setImage:[UIImage imageNamed:imagesArr[index]] forState:UIControlStateNormal];
         [extenBtn setImage:[UIImage imageNamed:imageLight] forState:UIControlStateHighlighted];
-
+        
         buttonX = marginHorizontal*(coloumnIndex+1) + buttonW*coloumnIndex;
         buttonY = marginVerticality*(rowIndex+1) + (buttonH+labelH)*rowIndex;
         
@@ -1584,7 +1584,7 @@ const char KMenuViewKey;
 }
 
 - (void)createAmplitudeImageView {
-
+    
     _amplitudeSuperView = [[UIView alloc] initWithFrame:CGRectMake(0,0 , kScreenWidth, [UIScreen mainScreen].bounds.size.height-ToolbarRecordViewHeight)];
     _amplitudeSuperView.backgroundColor = [UIColor grayColor];
     _amplitudeSuperView.alpha = 0.8;
@@ -1617,7 +1617,7 @@ const char KMenuViewKey;
 }
 
 -(void)sendChangeVoice {
-
+    
     NSString *displayname = [[NSUserDefaults standardUserDefaults] objectForKey:@"changeVoice_MessageBody"];
     [self cancelChangeVoiceView];
     if (displayname.length>0) {
@@ -1706,7 +1706,7 @@ const char KMenuViewKey;
             [[NSUserDefaults standardUserDefaults] setObject:messageBody.displayName forKey:@"changeVoice_MessageBody"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             [[ECDevice sharedInstance].messageManager playVoiceMessage:messageBody completion:^(ECError *error) {
-
+                
             }];
         }
     }];
@@ -1715,7 +1715,7 @@ const char KMenuViewKey;
 -(void)emojiBtnInput:(NSInteger)emojiTag{
     _inputTextView.text =  [_inputTextView.text stringByAppendingString:
                             [CommonTools getExpressionStrById:emojiTag]];
-
+    
 }
 
 -(void)backspaceText{
@@ -1824,7 +1824,7 @@ const char KMenuViewKey;
                     _emojiView.frame=frame;
                 }
             };
-
+            
             [UIView animateWithDuration:0.25 delay:0.1f options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState) animations:animations completion:nil];
             
         } else if (button.tag == ToolbarDisplay_Record) {
@@ -1893,7 +1893,7 @@ const char KMenuViewKey;
     [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
     NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
     NSString *file = [NSString stringWithFormat:@"tmp%@%03d.amr", currentDateStr, seedNum];
-
+    
     ECVoiceMessageBody * messageBody = [[ECVoiceMessageBody alloc] initWithFile:[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:file] displayName:file];
     userInputState = UserState_Record;
     if (_timer) {
@@ -1954,11 +1954,11 @@ const char KMenuViewKey;
             return ;
         }
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-
+        
         [strongSelf.amplitudeSuperView removeFromSuperview];
         strongSelf.amplitudeSuperView = nil;
         strongSelf.tableView.userInteractionEnabled = YES;
-
+        
         if (error.errorCode == ECErrorType_NoError) {
             if (_recordView.isChangeVoice) {
                 _isStartRecord = YES;
@@ -2016,7 +2016,7 @@ const char KMenuViewKey;
  *@brief 音频通话按钮
  */
 - (void)voiceCallBtnTap:(id)sender {
-
+    
     [self endOperation];
     
     // 弹出VoIP音频界面
@@ -2031,7 +2031,7 @@ const char KMenuViewKey;
     
     [self endOperation];
     
-   // 弹出视频界面
+    // 弹出视频界面
     [[ECDevice sharedInstance].VoIPManager enableLoudsSpeaker:YES];
     VideoViewController * vvc = [[VideoViewController alloc]initWithCallerName:_titleLabel.text andVoipNo:self.sessionId andCallstatus:0];
     [self presentViewController:vvc animated:YES completion:nil];
@@ -2091,7 +2091,7 @@ const char KMenuViewKey;
     UIImagePickerController* imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.delegate = self;
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-
+    
 #if 0
     //只照相
     imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
@@ -2108,7 +2108,7 @@ const char KMenuViewKey;
         AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if(status == AVAuthorizationStatusAuthorized) {
             // authorized
-             [self presentViewController:imagePicker animated:YES completion:NULL];
+            [self presentViewController:imagePicker animated:YES completion:NULL];
         } else if(status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied){
             // restricted
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -2118,7 +2118,7 @@ const char KMenuViewKey;
             // not determined
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
                 if(granted){
-                     [self presentViewController:imagePicker animated:YES completion:NULL];
+                    [self presentViewController:imagePicker animated:YES completion:NULL];
                 } else {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [[[UIAlertView alloc] initWithTitle:@"无法使用相机" message:@"请在“设置-隐私-相机”选项中允许访问你的相机" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
@@ -2145,7 +2145,7 @@ const char KMenuViewKey;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
         isReadDeleteMessage = YES;
-
+        
         NSString* button = [actionSheet buttonTitleAtIndex:buttonIndex];
         if ([button isEqualToString:@"拍照"]) {
             [self popTypeOfImagePicker:UIImagePickerControllerSourceTypeCamera];
@@ -2176,7 +2176,7 @@ const char KMenuViewKey;
  *@brief 发送文本消息
  */
 -(void)sendTextMessage {
-
+    
     userInputState = UserState_None;
     if (_timer) {
         [[DeviceChatHelper sharedInstance] sendUserState:userInputState to:self.sessionId];
@@ -2190,7 +2190,7 @@ const char KMenuViewKey;
         [alert show];
         return;
     }
-
+    
     ECMessage* message;
     if ([self.sessionId hasPrefix:@"g"] && [textString myContainsString:_deleteAtStr]) {
         NSMutableArray *personArray = [DemoGlobalClass sharedInstance].AtPersonArray;
@@ -2264,7 +2264,7 @@ const char KMenuViewKey;
         if (!strongSelf) {
             return;
         }
-
+        
         if ([strongSelf.sessionId isEqualToString:message.sessionId]) {
             for (NSInteger i=strongSelf.messageArray.count-1; i>=0; i--) {
                 id content = [strongSelf.messageArray objectAtIndex:i];
@@ -2326,12 +2326,12 @@ const char KMenuViewKey;
     
     NSURL *mp4Url = nil;
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:movUrl options:nil];
-
+    
     NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
     
     if ([compatiblePresets containsObject:AVAssetExportPreset640x480]) {
         AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:avAsset
-                                                                              presetName:AVAssetExportPreset640x480];
+                                                                               presetName:AVAssetExportPreset640x480];
         
         NSDateFormatter* formater = [[NSDateFormatter alloc] init];
         [formater setDateFormat:@"yyyyMMddHHmmssSSS"];
@@ -2453,7 +2453,7 @@ const char KMenuViewKey;
             [formater setDateFormat:@"yyyyMMddHHmmssSSS"];
             NSString* fileName =[NSString stringWithFormat:@"%@.gif", [formater stringFromDate:[NSDate date]]];
             NSString* filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:fileName];
-
+            
             [imageData writeToFile:filePath atomically:YES];
             
             ECImageMessageBody *mediaBody = [[ECImageMessageBody alloc] initWithFile:filePath displayName:filePath.lastPathComponent];
@@ -2489,7 +2489,7 @@ const char KMenuViewKey;
     NSData * photo = UIImageJPEGRepresentation(thumImage, 0.5);
     NSString * thumfilePath = [NSString stringWithFormat:@"%@.jpg_thum", filePath];
     [photo writeToFile:thumfilePath atomically:YES];
-
+    
     return filePath;
     
 }
@@ -2502,7 +2502,7 @@ const char KMenuViewKey;
     if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
         NSURL *videoURL = info[UIImagePickerControllerMediaURL];
         [picker dismissViewControllerAnimated:YES completion:nil];
-
+        
         // we will convert it to mp4 format
         NSURL *mp4 = [self convertToMp4:videoURL];
         NSFileManager *fileman = [NSFileManager defaultManager];
@@ -2524,7 +2524,7 @@ const char KMenuViewKey;
         
         NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
         NSString* ext = imageURL.pathExtension.lowercaseString;
-
+        
         if ([ext isEqualToString:@"gif"]) {
             [self saveGifToDocument:imageURL];
         } else {
@@ -2539,7 +2539,7 @@ const char KMenuViewKey;
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-
+    
 }
 
 #pragma mark - HPGrowingTextViewDelegate
@@ -2578,7 +2578,7 @@ const char KMenuViewKey;
             [strongSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:strongSelf.messageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         }
     };
-
+    
     [UIView animateWithDuration:0.1 delay:0.0f options:(UIViewAnimationOptionBeginFromCurrentState) animations:animations completion:completion];
 }
 
@@ -2640,7 +2640,7 @@ const char KMenuViewKey;
         _inputTextView.text = [NSString stringWithFormat:@"%@",string];
         _GroupMemberNickName = nil;
     }
-
+    
 }
 
 //失去焦点
@@ -2649,7 +2649,7 @@ const char KMenuViewKey;
     if (_timer) {
         [[DeviceChatHelper sharedInstance] sendUserState:userInputState to:self.sessionId];
     }
-
+    
     _inputMaskImage.image = [[UIImage imageNamed:@"input_box"] stretchableImageWithLeftCapWidth:95.0f topCapHeight:16.0f];
 }
 
@@ -2686,7 +2686,7 @@ const char KMenuViewKey;
 }
 
 -(void) startTimer {
-
+    
     __weak typeof(self) weakself = self;
     if (_timer == 0) {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);

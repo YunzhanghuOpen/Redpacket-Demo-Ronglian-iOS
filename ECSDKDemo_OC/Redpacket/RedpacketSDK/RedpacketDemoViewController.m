@@ -40,14 +40,14 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 #pragma mark -红包- 群红包功能入口事件处理
 - (void)redPacketTap:(id)sender{
     if (!isGroup) {
-        [self.redpacketControl presentRedPacketViewController];
+        [self.redpacketControl presentRedPacketViewControllerWithType:RPSendRedPacketViewControllerSingle memberCount:0];
     }else{
         __weak typeof(self) weakSelf = self;
         [[ECDevice sharedInstance].messageManager queryGroupMembers:self.sessionId completion:^(ECError *error, NSString* groupId, NSArray *members) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
-                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMembers:members];
+                [self.redpacketControl presentRedPacketViewControllerWithType:RPSendRedPacketViewControllerGroup memberCount:_members.count];
                 _members = members;
             }else
             {
@@ -76,7 +76,6 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     //  需要当前聊天窗口的会话ID
     RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
     userInfo.userId = self.sessionId;
-    userInfo.isGroup = isGroup;
     _redpacketControl.converstationInfo = userInfo;
     
     __weak typeof(self) weakSelf = self;
@@ -91,7 +90,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         [weakSelf sendRedpacketMessage:model];
         
     }];
-
+    
 }
 //
 //
@@ -103,8 +102,14 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     if (_timer) {
         [[DeviceChatHelper sharedInstance] sendUserState:UserState_None to:self.sessionId];
     }
-    
-    ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:[NSString stringWithFormat:@"[容联云红包]%@",redpacket.redpacket.redpacketGreeting]];
+    NSString *promt;
+    if (redpacket.messageType == RedpacketMessageTypeTransfer) {
+        promt = @"[转账]";
+    }else
+    {
+        promt = [NSString stringWithFormat:@"[容联云红包]%@",redpacket.redpacket.redpacketGreeting];
+    }
+    ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:promt];
     ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
     message.userData = [message voluationModele:redpacket];
     
@@ -138,12 +143,16 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     if ([message isKindOfClass:[ECMessage class]] && [message isRedpacket]) {
         if ([message isRedpacketOpenMessage]) {
             return [RedpacketTakenMessageTipCell getHightOfCellViewWith:message.messageBody];
-        }else{
+        }else
+        {
             return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
         }
         
     }
-    
+    if([message isTransfer])
+    {
+        return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
+    }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -173,6 +182,16 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
                 return cell;
             }
         }
+        if ([message isTransfer]) {
+            NSString *cellidentifier = [NSString stringWithFormat:@"%@_%@_%d", isSender?@"isTransferSender":@"isTransferReceiver",RedpacketTakenMessageTipCellIdentifier,(int)fileType];
+            RedpacketMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
+            if (!cell) {
+                cell = [[RedpacketMessageCell alloc]initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                cell.redpacketDelegate = self;
+            }
+            [cell bubbleViewWithData:message];
+            return cell;
+        }
     }
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
@@ -192,13 +211,15 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
                 message.rpModel.toRedpacketReceiver.userAvatar  = nil;              //根据需求显示，拆红包界面的定向接收者用户头像
                 
                 [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
-
+                
             }];
         }else
         {
             [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
         }
-        
+    }else if([message isTransfer])
+    {
+        [self.redpacketControl presentTransferDetailViewController:message.rpModel];
     }
 }
 
@@ -221,5 +242,18 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     return groupMemberList;
 }
 
-
+- (void)transferTap:(id)sender{
+    if (!isGroup) {
+        RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+        [[ECDevice sharedInstance] getOtherPersonInfoWith:self.sessionId completion:^(ECError *error, ECPersonInfo *person) {
+            
+            userInfo.userNickname = person.nickName; //根据需求显示，拆红包界面的定向接收者用户名
+            userInfo.userAvatar   = nil;              //根据需求显示，拆红包界面的定向接收者用户头像
+            userInfo.userId       = self.sessionId;
+            [self.redpacketControl presentTransferViewControllerWithReceiver:userInfo];
+            
+        }];
+        
+    }
+}
 @end
