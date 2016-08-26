@@ -1531,9 +1531,9 @@ const char KMenuViewKey;
         } else {
             if ( ![self.sessionId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                 
-                imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_phone_icon",@"dialogue_video_icon",@"dialogue_snap_icon",@"chat_location_normal",@"chat_location_normal"];
-                textArr = @[@"图片",@"拍摄",@"音频",@"视频",@"阅后即焚",@"位置",@"红包"];
-                selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"voiceCallBtnTap:",@"videoCallBtnTap:",@"snapFireBtnTap:",@"locationBtnTap:",@"redPacketTap:"];
+                imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_phone_icon",@"dialogue_video_icon",@"dialogue_snap_icon",@"chat_location_normal",@"chat_location_normal",@"chat_location_normal"];
+                textArr = @[@"图片",@"拍摄",@"音频",@"视频",@"阅后即焚",@"位置",@"红包",@"转账"];
+                selectorArr = @[@"pictureBtnTap:",@"cameraBtnTap:",@"voiceCallBtnTap:",@"videoCallBtnTap:",@"snapFireBtnTap:",@"locationBtnTap:",@"redPacketTap:",@"transferTap:"];
             } else {
                 imagesArr = @[@"dialogue_image_icon",@"dialogue_camera_icon",@"dialogue_snap_icon",@"chat_location_normal"];
                 textArr = @[@"图片",@"拍摄",@"阅后即焚",@"位置"];

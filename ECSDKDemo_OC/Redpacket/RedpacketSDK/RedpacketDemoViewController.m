@@ -40,18 +40,24 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
 //#pragma mark - 红包功能入口事件处理
 - (void)redPacketTap:(id)sender{
     if (!isGroup) {
-        [self.redpacketControl presentRedPacketViewController];
+        [self.redpacketControl presentRedPacketViewControllerWithType:RPSendRedPacketViewControllerSingle memberCount:0];
     }else{
         __weak typeof(self) weakSelf = self;
         [[ECDevice sharedInstance].messageManager queryGroupMembers:self.sessionId completion:^(ECError *error, NSString* groupId, NSArray *members) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
-                [self.redpacketControl presentRedPacketMoreViewControllerWithGroupMembers:members];
+                [self.redpacketControl presentRedPacketViewControllerWithType:RPSendRedPacketViewControllerGroup memberCount:members.count];
             }
         }];
         
         
+    }
+}
+- (void)transferTap:(id)sender{
+    if (!isGroup) {
+        RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+        [self.redpacketControl presentTransferViewControllerWithReceiver:userInfo];
     }
 }
 - (void)viewDidLoad
@@ -67,7 +73,6 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
     //  需要当前聊天窗口的会话ID
     RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
     userInfo.userId = self.sessionId;
-    userInfo.isGroup = isGroup;
     _redpacketControl.converstationInfo = userInfo;
     
     __weak typeof(self) weakSelf = self;
@@ -170,5 +175,8 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         [self.redpacketControl redpacketCellTouchedWithMessageModel:message.rpModel];
     }
 }
+
+
+
 
 @end
