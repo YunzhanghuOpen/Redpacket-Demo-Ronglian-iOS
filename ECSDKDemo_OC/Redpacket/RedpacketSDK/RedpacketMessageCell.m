@@ -151,6 +151,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         if ([self.message isTransfer]) {
             image = [UIImage imageNamed:REDPACKET_BUNDLE(@"transfer_receiver_bg")];
             self.greetingLabel.text = @"已收到对方转账";
+            self.orgLabel.text = @"[转账]";
         }else
         {
             image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_receiver_bg")];
@@ -168,6 +169,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         if ([self.message isTransfer]) {
             image = [UIImage imageNamed:REDPACKET_BUNDLE(@"transfer_sender_bg")];
             self.greetingLabel.text = @"对方已收到转账";
+            self.orgLabel.text = @"[转账]";
         }else
         {
             image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
@@ -176,7 +178,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     }
     if ([self.message isTransfer]) {
         UIImage *icon = [UIImage imageNamed:REDPACKET_BUNDLE(@"redPacket_transferIcon")];
-        self.iconView.frame = CGRectMake(13, 19, 34, 34);
+        self.iconView.frame = CGRectMake(13, 19, 32, 32);
         [self.iconView setImage:icon];
         self.subLabel.text = [NSString stringWithFormat:@"%@元",self.message.rpModel.redpacket.redpacketMoney];
     }
