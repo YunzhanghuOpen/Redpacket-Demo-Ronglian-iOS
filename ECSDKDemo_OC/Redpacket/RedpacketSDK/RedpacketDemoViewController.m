@@ -149,9 +149,11 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         }
         
     }
-    if([message isTransfer])
-    {
-        return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
+    if (![message isKindOfClass:[NSNull class]]) {
+        if([message isTransfer])
+        {
+            return [RedpacketMessageCell getHightOfCellViewWith:message.messageBody];
+        }
     }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
