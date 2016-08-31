@@ -106,7 +106,7 @@
                 s = [NSString stringWithFormat:@"%@领取了你的红包",self.rpModel.redpacketReceiver.userNickname];
             }else
             {
-                s = [NSString stringWithFormat:@"你领取了%@",self.rpModel.redpacketSender.userNickname];
+                s = [NSString stringWithFormat:@"你领取了%@的红包",self.rpModel.redpacketSender.userNickname];
             }
         }
         return s;

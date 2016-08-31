@@ -32,6 +32,7 @@ static NSString *requestUrl = @"http://10.10.1.10:32802/api/sign?duid=";
         [[YZHRedpacketBridge sharedBridge] setDelegate:config];
         [YZHRedpacketBridge sharedBridge].redacketURLScheme = @"com.redpacket.RLCloudDemo";//支付宝回调使用Key;
         [YZHRedpacketBridge sharedBridge].isDebug = YES;
+        [YZHRedpacketBridge sharedBridge].urlHost = @"http://10.10.1.10:32802/";//baseUrl 赋值举例
     });
     return config;
 }

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ECSDKDemo_OC/Redpacket/RedpacketSDK/RedpacketConfig.m"
-            timestampString = "492926625.771608"
+            timestampString = "494309539.968822"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "-redpacketError:withErrorCode:"
             landmarkType = "5">
          </BreakpointContent>
