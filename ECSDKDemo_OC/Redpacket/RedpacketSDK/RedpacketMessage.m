@@ -36,7 +36,9 @@
         NSDictionary * userMessage = [NSJSONSerialization JSONObjectWithData:userDate options:NSJSONReadingMutableContainers error:&error];
         if (userMessage && [RedpacketMessageModel isRedpacketRelatedMessage:userMessage]) {
             RedpacketMessageModel * redpacketModel = [RedpacketMessageModel redpacketMessageModelWithDic:userMessage];
+            int redpackeType = redpacketModel.redpacketType;
             self.rpModel = redpacketModel;
+            self.rpModel.redpacketType = redpackeType;
             return YES;
         }
     }
@@ -52,7 +54,9 @@
         NSDictionary * userMessage = [NSJSONSerialization JSONObjectWithData:userDate options:NSJSONReadingMutableContainers error:&error];
         if (userMessage && [RedpacketMessageModel isRedpacketTransferMessage:userMessage]) {
             RedpacketMessageModel * redpacketModel = [RedpacketMessageModel redpacketMessageModelWithDic:userMessage];
+            int redpackeType = redpacketModel.redpacketType;
             self.rpModel = redpacketModel;
+            self.rpModel.redpacketType = redpackeType;
             return YES;
         }
     }

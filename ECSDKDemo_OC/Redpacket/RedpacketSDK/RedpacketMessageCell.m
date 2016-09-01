@@ -119,12 +119,11 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     
     //    self.orgIconView = [[UIImageView alloc] initWithImage:icon];
     [self.bubbleBackgroundView addSubview:self.orgIconView];
-    self.typeLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 76, self.bubbleBackgroundView.bounds.size.width - 20, 12)];
+    self.typeLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 76, 180, 12)];
     self.typeLable.font = [UIFont systemFontOfSize:Redpacket_SubMessage_Font_Size];
     self.typeLable.textColor = [UIColor redColor];
     self.typeLable.textAlignment = NSTextAlignmentRight;
     [self.bubbleBackgroundView addSubview:self.typeLable];
-    
     
     CGRect rt = self.orgIconView.frame;
     rt.origin = CGPointMake(165, 75);
@@ -187,6 +186,9 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.iconView.frame = CGRectMake(13, 19, 32, 32);
         [self.iconView setImage:icon];
         self.subLabel.text = [NSString stringWithFormat:@"%@元",self.message.rpModel.redpacket.redpacketMoney];
+    }
+    if (message.rpModel.redpacketType == RedpacketTypeMember) {
+        self.typeLable.text = @"专属红包";
     }
     [self setNeedsLayout];
 }
