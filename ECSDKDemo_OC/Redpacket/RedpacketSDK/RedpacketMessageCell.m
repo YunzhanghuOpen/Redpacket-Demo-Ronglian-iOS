@@ -27,6 +27,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 @property(strong, nonatomic) UILabel *greetingLabel;
 @property(strong, nonatomic) UILabel *subLabel; // 显示 "查看红包"
 @property(strong, nonatomic) UILabel *orgLabel;
+@property(strong, nonatomic) UILabel *typeLable;
 @property(strong, nonatomic) UIImageView *iconView;
 @property(strong, nonatomic) UIImageView *orgIconView;
 
@@ -118,6 +119,11 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     
     //    self.orgIconView = [[UIImageView alloc] initWithImage:icon];
     [self.bubbleBackgroundView addSubview:self.orgIconView];
+    self.typeLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 76, self.bubbleBackgroundView.bounds.size.width - 20, 12)];
+    self.typeLable.font = [UIFont systemFontOfSize:Redpacket_SubMessage_Font_Size];
+    self.typeLable.textColor = [UIColor redColor];
+    self.typeLable.textAlignment = NSTextAlignmentRight;
+    [self.bubbleBackgroundView addSubview:self.typeLable];
     
     
     CGRect rt = self.orgIconView.frame;
