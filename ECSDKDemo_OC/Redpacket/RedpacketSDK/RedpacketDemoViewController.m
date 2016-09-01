@@ -47,7 +47,7 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
             if (error.errorCode == ECErrorType_NoError && [strongSelf.sessionId isEqualToString:groupId]) {
-                [self.redpacketControl presentRedPacketViewControllerWithType:RPSendRedPacketViewControllerGroup memberCount:_members.count];
+                [self.redpacketControl presentRedPacketViewControllerWithType:RPSendRedPacketViewControllerMember memberCount:_members.count];
                 _members = members;
             }else
             {
@@ -242,6 +242,24 @@ static NSString *const RedpacketTakenMessageTipCellIdentifier = @"RedpacketTaken
         }
     }
     return groupMemberList;
+}
+
+- (void)getGroupMemberListCompletionHandle:(void (^)(NSArray<RedpacketUserInfo *> *))completionHandle
+{
+    NSMutableArray *groupMemberList = [[NSMutableArray alloc]init];
+    for (ECGroupMember *member in _members) {
+        RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+        userInfo.userId = member.memberId;//可唯一标识用户的ID
+        userInfo.userNickname = member.display;//用户昵称
+        userInfo.userAvatar = nil; //用户头像地址
+        if ([userInfo.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+            // 专属红包不可以发送给自己
+        }else{
+            [groupMemberList addObject:userInfo];
+        }
+    }
+    completionHandle(groupMemberList);
+
 }
 
 - (void)transferTap:(id)sender{
