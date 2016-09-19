@@ -57,6 +57,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>通讯录</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>云通讯想使用您的地理位置信息</string>
 	<key>NSLocationWhenInUseDescription</key>
