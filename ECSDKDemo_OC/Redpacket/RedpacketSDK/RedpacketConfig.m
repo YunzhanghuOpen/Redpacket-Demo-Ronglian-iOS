@@ -68,7 +68,7 @@ static NSString *requestUrl = @"http://10.10.1.10:32773/api/sign?duid=";
 {
         NSString *userId = [self userId];
         
-        if (userId) {
+        if ([[YZHRedpacketBridge sharedBridge] isNeedUpdateSignWithUserId:userId]) {
             
             // 获取应用自己的签名字段。实际应用中需要开发者自行提供相应在的签名计算服务
             
