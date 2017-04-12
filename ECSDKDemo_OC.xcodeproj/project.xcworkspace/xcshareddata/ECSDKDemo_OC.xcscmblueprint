@@ -1,30 +1,26 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "dd6d2e1d-415a-4aae-9b9e-7302682725ca++7403",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
-
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++7403" : {
+      "DVTSourceControlWorkingCopyRepositoryBranchesLocationKey" : "yfs\/im\/SDK\/IOS\/branches",
+      "DVTSourceControlWorkingCopyRepositoryPrimaryBranchLocationKey" : "yfs\/im\/SDK\/IOS\/trunk"
+    }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2" : 0,
-    "82CBDC087A6F613CAD4621A5793B220E3F46D112" : 0
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++7403" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FDD1EB47-DC38-42A1-BC16-AEC74949950E",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2" : "ECSDKDemo_OC\/",
-    "82CBDC087A6F613CAD4621A5793B220E3F46D112" : "..\/..\/redpacketUI\/yzh-redpacket"
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++7403" : "svn\/webrtc5.0\/third_party\/oRTP\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "ECSDKDemo_OC",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ECSDKDemo_OC.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "5.3.0版本\/外发版本\/ECSDKDemo_OC\/ECSDKDemo_OC.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:YunzhanghuOpen\/yzh-redpacket.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82CBDC087A6F613CAD4621A5793B220E3F46D112"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:YunzhanghuOpen\/RongLianyun.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CAE6C07301B0BCA9E6ECF8A942EC18B07E7945B2"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/192.168.178.11\/iosdb",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "dd6d2e1d-415a-4aae-9b9e-7302682725ca++7403"
     }
   ]
 }

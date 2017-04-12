@@ -15,11 +15,12 @@
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 #import "WXApi.h"
+//表情云集成
+#import <BQMM/BQMM.h>
+//红包集成
+#import "AppDelegate+RedpacketConfig.h"
 
-#pragma mark -红包- 红包头文件
-#import "RedpacketConfig.h"
-#import "RedpacketOpenConst.h"
-#import "AlipaySDK.h"
+#import <Bugly/Bugly.h>
 
 #define LOG_OPEN 0
 
@@ -52,9 +53,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    [CustomEmojiView shardInstance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
@@ -65,17 +65,8 @@
     //iOS8 注册APNS
     if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
         
-        UIMutableUserNotificationAction *action = [[UIMutableUserNotificationAction alloc] init];
-        action.title = @"查看消息";
-        action.identifier = @"action1";
-        action.activationMode = UIUserNotificationActivationModeForeground;
-        
-        UIMutableUserNotificationCategory *category = [[UIMutableUserNotificationCategory alloc] init];
-        category.identifier = @"alert";
-        [category setActions:@[action] forContext:UIUserNotificationActionContextDefault];
-
         UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:[NSSet setWithObjects:category, nil]];
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         
     } else {
@@ -89,12 +80,24 @@
     
     [self redirectNSLogToDocumentFolder];
     
+    [Bugly startWithAppId:@"be50fe25e3"];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectStateChanged:) name:KNOTIFICATION_onConnected object:nil];
   
     #warning 设置代理
     [ECDevice sharedInstance].delegate = [DeviceDelegateHelper sharedInstance];
-    
+        
+    // 是否打开sdk日志
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"ecdevice.detail.sdk.log" object:@99];
+    //分享到微信
     [self shareSDK];
+    
+    //BQMM集成  初始化
+    [self configBQMM];
+    
+    //红包集成
+    [self configRedpacket];
+    
     UINavigationController * rootView = nil;
     //是否有登录信息
     [DemoGlobalClass sharedInstance].isAutoLogin = [self getLoginInfo];
@@ -104,8 +107,6 @@
         [[DeviceDBHelper sharedInstance] openDataBasePath:[DemoGlobalClass sharedInstance].userName];
         self.mainView = [[MainViewController alloc] init];
         rootView = [[UINavigationController alloc] initWithRootViewController:_mainView];
-#pragma mark -红包- -------------用于注册红包SDK
-        [RedpacketConfig config];
     } else {
         
         self.loginView = [[LoginViewController alloc] init];
@@ -113,14 +114,22 @@
     }
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];
     self.window.rootViewController = rootView;
     
     [self.window makeKeyAndVisible];
     
-    NSLog(@"测试 application didFinishLaunchingWithOptions");
-    
     return YES;
+}
+
+//BQMM集成  初始化
+- (void)configBQMM {
+    NSString *emojiStr = [[NSBundle mainBundle] pathForResource:@"ECEmoji.plist" ofType:nil];
+    NSArray *array = [NSArray arrayWithContentsOfFile:emojiStr];
+    [[MMEmotionCentre defaultCentre] setDefaultEmojiArray:array];
+    [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
+    [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageChinese;
+    [MMEmotionCentre defaultCentre].sdkRegion = MMRegionOther;
 }
 
 - (void)shareSDK {
@@ -153,20 +162,22 @@
     [hud hide:YES afterDelay:2];
 }
 
--(void)updateSoftAlertViewShow:(NSString*)message isForceUpdate:(BOOL)isForce {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"新版本发布" message:message delegate:self cancelButtonTitle:isForce?nil:@"下次更新" otherButtonTitles:@"更新", nil];
-    alert.tag = 100;
-    [alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        if (alertView.tag == 100) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://dwz.cn/F8pPd"]];
-            exit(0);
-        }
-    }
-}
+#ifndef AppStore
+//-(void)updateSoftAlertViewShow:(NSString*)message isForceUpdate:(BOOL)isForce {
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"新版本发布" message:message delegate:self cancelButtonTitle:isForce?nil:@"下次更新" otherButtonTitles:@"更新", nil];
+//    alert.tag = 100;
+//    [alert show];
+//}
+//
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (buttonIndex != alertView.cancelButtonIndex) {
+//        if (alertView.tag == 100) {
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://dwz.cn/F8pPd"]];
+//            exit(0);
+//        }
+//    }
+//}
+#endif
 
 +(AppDelegate*)shareInstance {
     return [[UIApplication sharedApplication] delegate];
@@ -232,7 +243,12 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[MMEmotionCentre defaultCentre] clearSession];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [DeviceDelegateHelper sharedInstance].preDate = [NSDate date];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -253,7 +269,7 @@
     UINavigationController * rootView = (UINavigationController*)self.window.rootViewController;
     if (error) {
         [DemoGlobalClass sharedInstance].isLogin = NO;
-        
+
         if (error.errorCode == ECErrorType_KickedOff || error.errorCode == 10) {
             
             NSMutableArray *navArray = [NSMutableArray arrayWithArray:rootView.viewControllers];
@@ -269,6 +285,10 @@
             self.mainView = nil;
             
             [DemoGlobalClass sharedInstance].userName = nil;
+            if (error.errorCode == ECErrorType_KickedOff) {
+                [[IMMsgDBAccess sharedInstance] updateNoTop];
+                [DeviceDBHelper sharedInstance].sessionDic = nil;
+            }
             
             if (error.errorCode == ECErrorType_KickedOff){
                 UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"警告" message:error.errorDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
@@ -303,44 +323,5 @@
     
     self.window.rootViewController = rootView;
 }
-
-
-
-#pragma mark -红包- ------- Alipay
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:nil];
-}
-
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    
-    if ([url.host isEqualToString:@"safepay"]) {
-        //跳转支付宝钱包进行支付，处理支付结果
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:resultDic];
-        }];
-    }
-    return YES;
-}
-
-// NOTE: 9.0以后使用新API接口
-- (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<NSString*, id> *)options
-{
-    if ([url.host isEqualToString:@"safepay"]) {
-        //跳转支付宝钱包进行支付，处理支付结果
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:RedpacketAlipayNotifaction object:resultDic];
-        }];
-    }
-    return YES;
-}
-
-
 
 @end

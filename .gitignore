@@ -1,4 +1,10 @@
 gnore_global
+Pods/
+Podfile.lock
+YTX_iOS_IM_SDK
+ECSDKDemo_OC.xcworkspace
+ECSDKDemo_OC/YTX_iOS_Full_SDK/lib/*
+ECSDKDemo_OC/YTX_iOS_Full_SDK/lib/YTX_iOS_Full_SDK_v5.3.1r1.a
 ####################################
 ######## OS generated files ########
 ####################################

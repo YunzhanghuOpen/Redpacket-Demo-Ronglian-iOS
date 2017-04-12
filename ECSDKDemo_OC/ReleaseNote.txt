@@ -1,0 +1,49 @@
+ReleaseNote Version 5.3.1r
+SDK:
+1、音频啸叫抑制，优化音视频质量
+2、下载返回https地址
+3、SDK全面支持APPLE ATS规范
+4、修复与H5视频互通问题
+5、修复会议中speaklistener字段无值问题
+
+Demo：
+1、修复视频会议中，第三方加入视频放大缩小问题
+2、修复创建会议时，会议背景音默认问题
+3、设置里增加选择摄像头分辨率和音视频编解码开关
+4、查询已读未读消息接口修改为https请求
+5、Demo全面支持APPLE ATS规范
+
+================我是分割线================
+ReleaseNote Version 5.3.0r
+
+sdk新增功能如下：
+1.sdk集成红包和表情初始化,应用无需初始化.
+2.查询已读未读消息接口修改,更改为http请求,应用已经封装好,并采用AFNetworking 3.0(用户无需担心ipv6的问题),接口如下:
+/**
+ 查询消息已读状态
+
+ @param type       0 未读 1已读
+ @param msgId      消息id
+ @param pageSize   每页数量
+ @param pageNo     页数
+ @param completion block返回值
+ */
+- (void)queryMessageReadStatus:(NSInteger)type
+                         msgId:(NSString*)msgId
+                      pageSize:(NSInteger)pageSize
+                        pageNo:(NSInteger)pageNo
+                    completion:(void (^)(NSString *err,NSArray *array,NSInteger totalSize))completion;
+3.采用先进的音频编码算法，提高抗丢包能力，增强音质，在差网络下也能正常沟通.
+4.优化视频网络自适应算法，使视频更加流程，适应不同网络环境
+
+
+demo新增功能：
+1.聊天页面支持发送红包和抢红包以及零钱功能。
+2.支持发送多样化的表情,以及表情商店下载表情.
+3.应用界面适配iPhone设备所有机型.
+4.新增意见反馈入口(备注:在设置页面).
+5.iOS10权限设置和推送设置已经适配.详见应用info.plist和推送开关设置.
+6.应用已经上架AppStore,用户无需担心ipv6的问题,或者想要体验iOS应用,请移步AppStore搜索云通讯im下载体验.
+
+
+
