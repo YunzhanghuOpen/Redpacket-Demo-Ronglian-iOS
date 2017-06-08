@@ -7,7 +7,7 @@
 //
 
 #import "ChatViewRedpacketCell.h"
-#import "RPRedpacketConstValues.h"
+#import "RedpacketOpenConst.h"
 
 #define Redpacket_Message_Font_Size 14
 #define Redpacket_SubMessage_Font_Size 12
@@ -135,10 +135,13 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 - (void)bubbleViewWithData:(ECMessage *)message{
     [super bubbleViewWithData:message];
     
-    self.greetingLabel.text = message.analysisModel.greeting;
+    RedpacketMessageModel *redpacketMessage = [message rpModel];
+    NSString *messageString = redpacketMessage.redpacket.redpacketGreeting;
+    self.greetingLabel.text = messageString;
+    
     self.orgLabel.text = @"容联云红包";//orgString;
     
-    if (message.rpModel.redpacketType == RPRedpacketTypeGoupMember) {
+    if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
         self.orgTypeLabel.text = @"专属红包";
     }else
     {

@@ -1874,8 +1874,8 @@ const char KMenuViewKey;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     __weak typeof(self) weakSelf = self;
     RPRedpacketControllerType  redpacketVCType = 0;
-    RPUserInfo *userInfo = [RPUserInfo new];
-    userInfo.userID = [DemoGlobalClass sharedInstance].userName;
+    RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+    userInfo.userId = [DemoGlobalClass sharedInstance].userName;
     if (!isGroup) {
         
         /** 小额随机红包*/
@@ -1888,29 +1888,26 @@ const char KMenuViewKey;
         
     }
     /** 发红包方法*/
-
     [RedpacketViewControl presentRedpacketViewController:redpacketVCType
-                                         fromeController:weakSelf
-                                        groupMemberCount:_groupMembers.count
+                                         fromeController:weakSelf groupMemberCount:_groupMembers.count
                                    withRedpacketReceiver:userInfo
-                                         andSuccessBlock:^(RPRedpacketModel *model) {
+                                         andSuccessBlock:^(RedpacketMessageModel *model) {
                                              [weakSelf sendRedpacketMessage:model];
                                          } withFetchGroupMemberListBlock:^(RedpacketMemberListFetchBlock fetchFinishBlock) {
                                              /** 定向红包群成员列表页面，获取群成员列表 */
                                              NSMutableArray *groupMemberList = [[NSMutableArray alloc]init];
                                              for (ECGroupMember *member in _groupMembers) {
-                                                 RPUserInfo *userInfo = [RPUserInfo new];
-                                                 userInfo.userID = member.memberId;//可唯一标识用户的ID
-                                                 userInfo.userName = member.display;//用户昵称
-                                                 userInfo.avatar = nil; //用户头像地址
-                                                 if ([userInfo.userID isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+                                                 RedpacketUserInfo *userInfo = [RedpacketUserInfo new];
+                                                 userInfo.userId = member.memberId;//可唯一标识用户的ID
+                                                 userInfo.userNickname = member.display;//用户昵称
+                                                 userInfo.userAvatar = nil; //用户头像地址
+                                                 if ([userInfo.userId isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
                                                      // 专属红包不可以发送给自己
                                                  }else{
                                                      [groupMemberList addObject:userInfo];
                                                  }
                                              }
-                                             fetchFinishBlock(groupMemberList);
-                                         }];
+                                         } andGenerateRedpacketIDBlock:nil];
     
 }
 
@@ -2440,18 +2437,18 @@ const char KMenuViewKey;
 }
 
 #pragma mark - 发送红包消息
-- (void)sendRedpacketMessage:(RPRedpacketModel *)redpacket {
-    NSString *text = [NSString stringWithFormat:@"[容联云红包]%@",redpacket.greeting];
+- (void)sendRedpacketMessage:(RedpacketMessageModel *)redpacket {
+    NSString *text = [NSString stringWithFormat:@"[容联云红包]%@",redpacket.redpacket.redpacketGreeting];
     NSString *userData = [ECMessage voluationModele:redpacket];
     [self sendTextMessageWithText:text userData:userData];
 }
 
 // 发送红包被抢的消息
-- (void)sendRedpacketHasBeenTaked:(RPRedpacketModel *)redpacket
+- (void)sendRedpacketHasBeenTaked:(RedpacketMessageModel *)redpacket
 {
-    NSString *text = [NSString stringWithFormat:@"%@领取了你的红包", redpacket.receiver.userName];
+    NSString *text = [NSString stringWithFormat:@"%@领取了你的红包", redpacket.redpacketReceiver.userNickname];
     NSString *userData = [ECMessage voluationModele:redpacket];
-    if ([redpacket.receiver.userID isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+    if (redpacket.isRedacketSender) {
         text = @"你领取了自己发的红包";
         ECTextMessageBody *messageBody = [[ECTextMessageBody alloc] initWithText:text];
         ECMessage *message = [[ECMessage alloc] initWithReceiver:self.sessionId body:messageBody];
@@ -2481,33 +2478,50 @@ const char KMenuViewKey;
 }
 
 - (void)redpacketCell:(ChatViewRedpacketCell *)cell didTap:(ECMessage *)message {
-    if(MessageCellTypeRedpaket == message.analysisModel.type) {
-        [self redpacketCellTouchedWithMessageModel:message.rpModel];
+    if(RedpacketMessageTypeRedpacket == message.rpModel.messageType) {
+        __weak typeof(self) weakSelf = self;
+        message.rpModel.redpacketSender.userNickname = [[DemoGlobalClass sharedInstance] getOtherNameWithPhone:message.from];//根据需求显示，拆红包界面的发送者用户名
+        message.rpModel.redpacketSender.userAvatar  = nil;          //根据需求显示，拆红包界面的发送整的用户头像
+        message.rpModel.redpacketSender.userId = message.from;
+        
+        if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
+            [[ECDevice sharedInstance] getOtherPersonInfoWith:message.rpModel.redpacketReceiver.userId completion:^(ECError *error, ECPersonInfo *person) {
+                
+                message.rpModel.redpacketReceiver.userNickname = person.nickName; //根据需求显示，拆红包界面的定向接收者用户名
+                message.rpModel.redpacketReceiver.userAvatar  = nil;              //根据需求显示，拆红包界面的定向接收者用户头像
+                
+                [weakSelf redpacketCellTouchedWithMessageModel:message.rpModel];
+                
+            }];
+        } else {
+            [weakSelf redpacketCellTouchedWithMessageModel:message.rpModel];
+        }
     }
 }
 
-- (void)redpacketCellTouchedWithMessageModel:(RPRedpacketModel *)rpModel
+- (void)redpacketCellTouchedWithMessageModel:(RedpacketMessageModel *)rpModel
 {
     __weak typeof(self) weakSelf = self;
     [RedpacketViewControl redpacketTouchedWithMessageModel:rpModel
                                         fromViewController:self
-                                        redpacketGrabBlock:^(RPRedpacketModel *messageModel) {
+                                        redpacketGrabBlock:^(RedpacketMessageModel *messageModel) {
                                             /** 抢到红包后，发送红包被抢的消息*/
-                                            if (messageModel.redpacketType != RPRedpacketTypeAmount) {
+                                            if (messageModel.redpacketType != RedpacketTypeAmount) {
                                                 [weakSelf sendRedpacketHasBeenTaked:messageModel];
                                             }
-
-                                        } advertisementAction:^(RPAdvertInfo *info) {
+                                            
+                                        } advertisementAction:^(NSDictionary *args) {
                                             /** 营销红包事件处理*/
-                                            switch (info.AdvertisementActionType) {
-                                                case RedpacketAdvertisementReceive:
+                                            NSInteger actionType = [args[@"actionType"] integerValue];
+                                            switch (actionType) {
+                                                case 0:
                                                     /** 用户点击了领取红包按钮*/
                                                     break;
                                                     
-                                                case RedpacketAdvertisementAction: {
+                                                case 1: {
                                                     /** 用户点击了去看看按钮，进入到商户定义的网页 */
                                                     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-                                                    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:info.shareURLString]];
+                                                    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:args[@"LandingPage"]]];
                                                     [webView loadRequest:request];
                                                     
                                                     UIViewController *webVc = [[UIViewController alloc] init];
@@ -2517,7 +2531,7 @@ const char KMenuViewKey;
                                                 }
                                                     break;
                                                     
-                                                case RedpacketAdvertisementShare: {
+                                                case 2: {
                                                     /** 点击了分享按钮，开发者可以根据需求自定义，动作。*/
                                                     [[[UIAlertView alloc]initWithTitle:nil
                                                                                message:@"点击「分享」按钮，红包SDK将该红包素材内配置的分享链接传递给商户APP，由商户APP自行定义分享渠道完成分享动作。"
@@ -2526,11 +2540,10 @@ const char KMenuViewKey;
                                                                      otherButtonTitles:nil] show];
                                                 }
                                                     break;
-                                                    
                                                 default:
                                                     break;
                                             }
-
+                                            
                                         }];
     
 }

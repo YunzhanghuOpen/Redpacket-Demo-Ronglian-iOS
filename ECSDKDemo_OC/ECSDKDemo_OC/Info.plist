@@ -46,7 +46,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.ronglian.pirateonline-Yunzhanghu</string>
+				<string>com.ronglian.pirateonline</string>
 			</array>
 		</dict>
 	</array>

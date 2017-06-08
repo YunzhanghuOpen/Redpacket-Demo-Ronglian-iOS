@@ -232,7 +232,8 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
         return;
     }
     
-    if (message.messageBody.messageBodyType == MessageBodyType_Text && message.rpModel && (message.analysisModel.type == MessageCellTypeRedpaketTaken) && ![message.rpModel.sender.userID isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+    RedpacketMessageModel *model = [message getRpmodel:message.userData];
+    if (message.messageBody.messageBodyType == MessageBodyType_Text && model && [message isRedpacketOpenMessage] && ![model.redpacketSender.userId isEqualToString:model.currentUser.userId]) {
         return;
     }
     
@@ -357,9 +358,11 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
         return;
     }
     
-    if (message.messageBody.messageBodyType == MessageBodyType_Text && message.rpModel && (message.analysisModel.type == MessageCellTypeRedpaketTaken) && ![message.rpModel.sender.userID isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
+    RedpacketMessageModel *model = [message getRpmodel:message.userData];
+    if (message.messageBody.messageBodyType == MessageBodyType_Text && model && [message isRedpacketOpenMessage] && ![model.redpacketSender.userId isEqualToString:model.currentUser.userId]) {
         return;
     }
+
 #warning 时间全部转换成本地时间
     if (!message.timestamp) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];

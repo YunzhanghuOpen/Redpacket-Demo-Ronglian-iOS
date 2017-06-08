@@ -7,14 +7,11 @@
 //
 
 #import "ECMessage.h"
-#import "RPRedpacketModel.h"
-#import "AnalysisRedpacketModel.h"
+#import "RedpacketMessageModel.h"
+
 @interface ECMessage(RedPacketMessage)
 
-@property (nonatomic,strong)    RPRedpacketModel * rpModel;
-
-@property (nonatomic,strong)  AnalysisRedpacketModel *analysisModel;
-
+@property(nonatomic,strong)RedpacketMessageModel * rpModel;
 // 是否红包消息
 - (BOOL)isRedpacket;
 // 是否红包已抢消息
@@ -27,7 +24,7 @@
 - (NSDictionary *)redPacketDic;
 
 // 把红包对象转换成字符串
-+ (NSString *)voluationModele:(RPRedpacketModel *)model;
++ (NSString *)voluationModele:(RedpacketMessageModel *)model;
 
-- (AnalysisRedpacketModel *)getRpmodel:(NSString*)userdata;
+- (RedpacketMessageModel*)getRpmodel:(NSString*)userdata;
 @end
