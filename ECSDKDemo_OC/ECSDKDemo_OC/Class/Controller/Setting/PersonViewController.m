@@ -59,11 +59,7 @@
                                      @2:@[[CellBaseModel baseModelWithText:@"关于云通讯" detailText:nil img:nil modelType:nil],[CellBaseModel baseModelWithText:@"意见与反馈" detailText:nil img:nil modelType:nil]]
                                      }];
     
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"alipay://"]]) {
-        [_dataSourceDict setObject:@[[CellBaseModel baseModelWithText:@"表情" detailText:nil img:[UIImage imageNamed:@"EmotionsEmojiHL@2x"] modelType:nil],[CellBaseModel baseModelWithText:@"钱包" detailText:nil img:img modelType:nil]] forKey:@3];
-    } else {
-        [_dataSourceDict setObject:@[[CellBaseModel baseModelWithText:@"表情" detailText:nil img:[UIImage imageNamed:@"EmotionsEmojiHL@2x"] modelType:nil]] forKey:@3];
-    }
+    [_dataSourceDict setObject:@[[CellBaseModel baseModelWithText:@"表情" detailText:nil img:[UIImage imageNamed:@"EmotionsEmojiHL@2x"] modelType:nil],[CellBaseModel baseModelWithText:@"钱包" detailText:nil img:img modelType:nil]] forKey:@3];
     [DemoGlobalClass sharedInstance].linkDict = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:WebUrlPlist ofType:nil]];
 }
 
