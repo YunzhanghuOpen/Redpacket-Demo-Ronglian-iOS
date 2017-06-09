@@ -4,6 +4,12 @@ platform :ios, '7.0'
 # Import CocoaPods sources
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'ECSDKDemo_OC' do
-  pod 'RedpacketLib'
+
+target 'ECSDK-alpayOpenUI' do
+    pod 'RedpacketAliAuthLib'
+end
+
+
+target 'ECSDK-JDpay' do
+    pod 'RedpacketLib'
 end

@@ -8,20 +8,35 @@
 
 #import "ECMessage+RedpacketMessage.h"
 //#import <objc/runtime.h>
-
-#define redpacketMessageModel @"RedpacketMessageModel"
+#import "DemoGlobalClass.h"
+#import "RPRedpacketUnionHandle.h"
+#define redpacketMessageModel @"RPRedpacketModel"
+#define analysisMessageModel @"AnalysisRedpacketModel"
 
 @implementation ECMessage(RedPacketMessage)
 
-- (void)setRpModel:(RedpacketMessageModel *)rpModel{
+- (void)setRpModel:(RPRedpacketModel *)rpModel{
     [self willChangeValueForKey:@"rpModel"];
     objc_setAssociatedObject(self,redpacketMessageModel, rpModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self didChangeValueForKey:@"rpModel"];
 }
 
-- (RedpacketMessageModel *)rpModel{
-    RedpacketMessageModel *model = objc_getAssociatedObject(self, redpacketMessageModel);
+- (void)setAnalysisModel:(AnalysisRedpacketModel *)analysisModel
+{
+    [self willChangeValueForKey:@"analysisModel"];
+    objc_setAssociatedObject(self,redpacketMessageModel, analysisModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self didChangeValueForKey:@"analysisModel"];
+}
+
+
+- (RPRedpacketModel *)rpModel{
+    RPRedpacketModel *model = [RPRedpacketUnionHandle modelWithChannelRedpacketDic:[self redPacketDic] andSender:nil];
     return model;
+}
+
+- (AnalysisRedpacketModel *)analysisModel
+{
+    return [AnalysisRedpacketModel analysisRedpacketWithDict:[self redPacketDic] andIsSender:[self.from isEqualToString:[DemoGlobalClass sharedInstance].userName]];
 }
 
 - (BOOL)isRedpacket{
@@ -30,31 +45,29 @@
     }
     if (self.userData) {
         NSDictionary * dict = [self redPacketDic];
-        if (dict && [RedpacketMessageModel isRedpacketRelatedMessage:dict]) {
-            RedpacketMessageModel * redpacketModel = [RedpacketMessageModel redpacketMessageModelWithDic:dict];
-            self.rpModel = redpacketModel;
+        if (dict && [AnalysisRedpacketModel messageCellTypeWithDict:dict] != MessageCellTypeUnknown ) {
+            self.analysisModel = [AnalysisRedpacketModel analysisRedpacketWithDict:dict andIsSender:[self.from isEqualToString:[DemoGlobalClass sharedInstance].userName]];
             return YES;
         }
     }
     return NO;
 }
 
-- (RedpacketMessageModel*)getRpmodel:(NSString*)userdata {
+- (AnalysisRedpacketModel *)getRpmodel:(NSString*)userdata {
     if (self.userData) {
         NSDictionary * dict = [self redPacketDic];
-        if (dict && [RedpacketMessageModel isRedpacketRelatedMessage:dict]) {
-            RedpacketMessageModel * redpacketModel = [RedpacketMessageModel redpacketMessageModelWithDic:dict];
-            self.rpModel = redpacketModel;
+        if (dict &&  [AnalysisRedpacketModel messageCellTypeWithDict:dict] != MessageCellTypeUnknown) {
+            self.analysisModel = [AnalysisRedpacketModel analysisRedpacketWithDict:dict andIsSender:[self.from isEqualToString:[DemoGlobalClass sharedInstance].userName]];
         }
     }
-    return self.rpModel;
+    return self.analysisModel;
 }
 
 - (BOOL)isRedpacketOpenMessage
 {
     if (self.userData) {
         NSDictionary * dict = [self redPacketDic];
-        return  ![RedpacketMessageModel isRedpacket:dict];
+        return  [AnalysisRedpacketModel messageCellTypeWithDict:dict] == MessageCellTypeRedpaketTaken;
     }
     return NO;
 }
@@ -65,31 +78,31 @@
         return @"";
     }
     
-    if (RedpacketMessageTypeRedpacket == self.rpModel.messageType) {
+    if (MessageCellTypeRedpaket == self.analysisModel.type ) {
         
-        return [NSString stringWithFormat:@"[%@]%@", self.rpModel.redpacket.redpacketOrgName, self.rpModel.redpacket.redpacketGreeting];
+        return [NSString stringWithFormat:@"[%@]%@", self.analysisModel.redpacketOrgName, self.analysisModel.greeting];
         
-    } else if (RedpacketMessageTypeTedpacketTakenMessage == self.rpModel.messageType) {
+    } else if (MessageCellTypeRedpaketTaken == self.analysisModel.type) {
         
         NSString *s = nil;
         if (self.isGroup) {
             
-            if([self.rpModel.redpacketSender.userId isEqualToString:self.rpModel.redpacketReceiver.userId]) {
+            if([[DemoGlobalClass sharedInstance].userName isEqualToString:self.analysisModel.receiver.userID]) {
                 s = @"你领取了自己的红包";
-            } else if (self.rpModel.isRedacketSender) {
-                s = [NSString stringWithFormat:@"%@领取了你的红包",self.rpModel.redpacketReceiver.userNickname];
-            } else if (![self.rpModel.currentUser.userId isEqualToString:self.rpModel.redpacketReceiver.userId]) {
-                s = [NSString stringWithFormat:@"%@领取了%@的红包",self.rpModel.redpacketReceiver.userNickname,self.rpModel.redpacketSender.userNickname];
+            } else if (self.rpModel.isSender) {
+                s = [NSString stringWithFormat:@"%@领取了你的红包",self.analysisModel.receiver.userName];
+            } else if (![[DemoGlobalClass sharedInstance].userName isEqualToString:self.rpModel.receiver.userName]) {
+                s = [NSString stringWithFormat:@"%@领取了%@的红包",self.analysisModel.receiver.userName,self.analysisModel.sender.userName];
             } else {
-                s = [NSString stringWithFormat:@"你领取了%@的红包",self.rpModel.redpacketSender.userNickname];
+                s = [NSString stringWithFormat:@"你领取了%@的红包",self.analysisModel.sender.userName];
             }
             
         } else {
             
-            if ([self.rpModel.currentUser.userId isEqualToString:self.rpModel.redpacketSender.userId]) {
-                s = [NSString stringWithFormat:@"%@领取了你的红包",self.rpModel.redpacketReceiver.userNickname];
+            if ([[DemoGlobalClass sharedInstance].userName isEqualToString:self.analysisModel.sender.userID]) {
+                s = [NSString stringWithFormat:@"%@领取了你的红包",self.analysisModel.receiver.userName];
             } else {
-                s = [NSString stringWithFormat:@"你领取了%@的红包",self.rpModel.redpacketSender.userNickname];
+                s = [NSString stringWithFormat:@"你领取了%@的红包",self.analysisModel.sender.userName];
             }
         }
         return s;
@@ -109,11 +122,11 @@
     return dict;
 }
 
-+ (NSString *)voluationModele:(RedpacketMessageModel *)model
++ (NSString *)voluationModele:(RPRedpacketModel *)model
 {
     NSString * rpString = nil;
     objc_setAssociatedObject(self,redpacketMessageModel, model, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    NSDictionary * rp = [model.redpacketMessageModelToDic mutableCopy];
+    NSDictionary * rp = [RPRedpacketUnionHandle dictWithRedpacketModel:model isACKMessage:model.receiveMoney.floatValue > 0.009];
     if (rp){
         NSError * error;
         NSData * jsonData = [NSJSONSerialization dataWithJSONObject:rp options:NSJSONWritingPrettyPrinted error:&error];
