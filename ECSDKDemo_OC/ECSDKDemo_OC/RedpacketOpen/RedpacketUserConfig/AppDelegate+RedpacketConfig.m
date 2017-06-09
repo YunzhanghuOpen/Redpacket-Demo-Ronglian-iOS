@@ -8,16 +8,13 @@
 
 #import "AppDelegate+RedpacketConfig.h"
 #import <AlipaySDK/AlipaySDK.h>
-#import "YZHRedpacketBridgeProtocol.h"
-#import "RedpacketOpenConst.h"
-#import "YZHRedpacketBridge.h"
-#import "RedpacketMessageModel.h"
-
+#import "RPRedpacketConstValues.h"
+#import "RPRedpacketBridge.h"
+#import "RPRedpacketModel.h"
 
 #define DefaultRongLianAppID       @"20150314000000110000000000000010"
 
-@interface AppDelegate () <YZHRedpacketBridgeDataSource,
-                           YZHRedpacketBridgeDelegate>
+@interface AppDelegate () <RPRedpacketBridgeDelegate>
 
 @end
 
@@ -25,18 +22,17 @@
 
 - (void)configRedpacket
 {
-    [YZHRedpacketBridge sharedBridge].isDebug = YES;
-    [YZHRedpacketBridge sharedBridge].dataSource = self;
-    [YZHRedpacketBridge sharedBridge].delegate = self;
+    [RPRedpacketBridge sharedBridge].delegate = self;
+    [RPRedpacketBridge sharedBridge].isDebug = YES;//开发者调试的的时候，设置为YES，看得见日志。
 }
 
-- (RedpacketUserInfo *)redpacketUserInfo
+- (RPUserInfo *)redpacketUserInfo
 {
-    RedpacketUserInfo *user = [[RedpacketUserInfo alloc] init];
+    RPUserInfo *user = [[RPUserInfo alloc] init];
     DemoGlobalClass * selfUser = [DemoGlobalClass sharedInstance];
-    user.userId = [selfUser userName];
-    user.userNickname = [selfUser nickName];
-    user.userAvatar = nil;
+    user.userID = [selfUser userName];
+    user.userName = [selfUser nickName];
+    user.avatar = nil;
     return user;
 }
 
@@ -49,15 +45,14 @@
 }
 
 /* MARK:红包Token注册回调**/
-- (void)redpacketFetchRegisitParam:(FetchRegisitParamBlock)fetchBlock withError:(NSError *)error
+- (void)redpacketFetchRegisitParam:(RPFetchRegisitParamBlock)fetchBlock withError:(NSError *)error
 {
     NSString *userId = [self userId];
     if (userId.length) {
-        RedpacketRegisitModel *model = [RedpacketRegisitModel rongCloudModelWithAppId:DefaultRongLianAppID appUserId:userId];
+        RPRedpacketRegisitModel *model = [RPRedpacketRegisitModel rongCloudModelWithAppId:DefaultRongLianAppID appUserId:userId];
         fetchBlock(model);
     }else {
         fetchBlock(nil);
     }
 }
-
 @end

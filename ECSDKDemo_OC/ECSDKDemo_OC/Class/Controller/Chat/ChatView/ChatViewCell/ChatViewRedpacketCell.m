@@ -7,7 +7,7 @@
 //
 
 #import "ChatViewRedpacketCell.h"
-#import "RedpacketOpenConst.h"
+#import "RPRedpacketConstValues.h"
 
 #define Redpacket_Message_Font_Size 14
 #define Redpacket_SubMessage_Font_Size 12
@@ -49,7 +49,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
         self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x-198, self.portraitImg.frame.origin.y, 198, 94.0);
         UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_sender_bg")];
         self.bubbleBackgroundView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(70, 9, 25, 20)];
-
+        
     } else {
         self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x+10.0f+self.portraitImg.frame.size.width, self.portraitImg.frame.origin.y, 198, 94.0f);
         UIImage *image = [UIImage imageNamed:REDPACKET_BUNDLE(@"redpacket_receiver_bg")];
@@ -63,7 +63,7 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
     UITapGestureRecognizer *tap =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     [self.bubbleBackgroundView addGestureRecognizer:tap];
-
+    
     // 设置红包图标
     UIImage *icon = [UIImage imageNamed:REDPACKET_BUNDLE(@"redPacket_redPacktIcon")];
     self.iconView = [[UIImageView alloc] initWithImage:icon];
@@ -135,13 +135,10 @@ static const CGFloat kXHAvatorPaddingX = 8.0;
 - (void)bubbleViewWithData:(ECMessage *)message{
     [super bubbleViewWithData:message];
     
-    RedpacketMessageModel *redpacketMessage = [message rpModel];
-    NSString *messageString = redpacketMessage.redpacket.redpacketGreeting;
-    self.greetingLabel.text = messageString;
-    
+    self.greetingLabel.text = message.analysisModel.greeting;
     self.orgLabel.text = @"容联云红包";//orgString;
     
-    if ([[[message redPacketDic] valueForKey:RedpacketKeyRedapcketToAnyone] isEqualToString:@"member"]) {
+    if (message.rpModel.redpacketType == RPRedpacketTypeGoupMember) {
         self.orgTypeLabel.text = @"专属红包";
     }else
     {

@@ -57,7 +57,7 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
         return;
     }
     
-//后台切前台接收消息判断
+    //后台切前台接收消息判断
     if (self.preDate==nil) {
         self.preDate = [NSDate date];
     }
@@ -69,7 +69,7 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
     
     self.isB2F = NO;
     
-//是否在会话里接收消息
+    //是否在会话里接收消息
     BOOL isChat = NO;
     if (self.sessionId.length>0 && sessionId.length>0 && [self.sessionId isEqualToString:sessionId]) {
         isChat = YES;
@@ -78,7 +78,7 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
     if (![[IMMsgDBAccess sharedInstance] isNoticeOfGroupId:sessionId]) {
         return;
     }
-//查看设置
+    //查看设置
     if ([DemoGlobalClass sharedInstance].isMessageSound && !isChat) {
         //播放声音
         AudioServicesPlaySystemSound(receiveSound);
@@ -232,8 +232,7 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
         return;
     }
     
-    RedpacketMessageModel *model = [message getRpmodel:message.userData];
-    if (message.messageBody.messageBodyType == MessageBodyType_Text && model && [message isRedpacketOpenMessage] && ![model.redpacketSender.userId isEqualToString:model.currentUser.userId]) {
+    if (message.messageBody.messageBodyType == MessageBodyType_Text && message.rpModel && (message.analysisModel.type == MessageCellTypeRedpaketTaken) && ![message.rpModel.sender.userID isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
         return;
     }
     
@@ -334,10 +333,10 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
     NSInteger retCount = -1;
     if (self.offlineCount!=0) {
         /*
-        if (self.offlineCount>100) {
-            retCount = 100;
-        }
-        */
+         if (self.offlineCount>100) {
+         retCount = 100;
+         }
+         */
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_haveHistoryMessage object:nil];
         });
@@ -358,11 +357,9 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
         return;
     }
     
-    RedpacketMessageModel *model = [message getRpmodel:message.userData];
-    if (message.messageBody.messageBodyType == MessageBodyType_Text && model && [message isRedpacketOpenMessage] && ![model.redpacketSender.userId isEqualToString:model.currentUser.userId]) {
+    if (message.messageBody.messageBodyType == MessageBodyType_Text && message.rpModel && (message.analysisModel.type == MessageCellTypeRedpaketTaken) && ![message.rpModel.sender.userID isEqualToString:[DemoGlobalClass sharedInstance].userName]) {
         return;
     }
-
 #warning 时间全部转换成本地时间
     if (!message.timestamp) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
@@ -378,7 +375,7 @@ NSString *const CellMessageUnReadCount = @"CellMessageUnReadCount";
     if( bodyType == MessageBodyType_Voice || bodyType == MessageBodyType_Video || bodyType == MessageBodyType_File || bodyType == MessageBodyType_Image || bodyType== MessageBodyType_Preview){
         ECFileMessageBody *body = (ECFileMessageBody*)message.messageBody;
         body.displayName = body.remotePath.lastPathComponent;
-
+        
         if (message.messageBody.messageBodyType == MessageBodyType_Video) {
             ECVideoMessageBody *videoBody = (ECVideoMessageBody *)message.messageBody;
             if (videoBody.thumbnailRemotePath == nil) {
