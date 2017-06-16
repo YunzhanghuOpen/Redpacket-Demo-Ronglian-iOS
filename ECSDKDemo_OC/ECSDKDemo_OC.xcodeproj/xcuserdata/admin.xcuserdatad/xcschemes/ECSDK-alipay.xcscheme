@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "05967C7F1A30625700C98C86"
                BuildableName = "pirate.app"
-               BlueprintName = "ECSDK-alpayOpenUI"
+               BlueprintName = "ECSDK-alipay"
                ReferencedContainer = "container:ECSDKDemo_OC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05967C7F1A30625700C98C86"
             BuildableName = "pirate.app"
-            BlueprintName = "ECSDK-alpayOpenUI"
+            BlueprintName = "ECSDK-alipay"
             ReferencedContainer = "container:ECSDKDemo_OC.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05967C7F1A30625700C98C86"
             BuildableName = "pirate.app"
-            BlueprintName = "ECSDK-alpayOpenUI"
+            BlueprintName = "ECSDK-alipay"
             ReferencedContainer = "container:ECSDKDemo_OC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -76,7 +76,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05967C7F1A30625700C98C86"
             BuildableName = "pirate.app"
-            BlueprintName = "ECSDK-alpayOpenUI"
+            BlueprintName = "ECSDK-alipay"
             ReferencedContainer = "container:ECSDKDemo_OC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

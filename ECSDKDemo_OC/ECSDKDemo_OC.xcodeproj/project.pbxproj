@@ -3792,9 +3792,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		05967C7F1A30625700C98C86 /* ECSDK-alpayOpenUI */ = {
+		05967C7F1A30625700C98C86 /* ECSDK-alipay */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 05967CA31A30625700C98C86 /* Build configuration list for PBXNativeTarget "ECSDK-alpayOpenUI" */;
+			buildConfigurationList = 05967CA31A30625700C98C86 /* Build configuration list for PBXNativeTarget "ECSDK-alipay" */;
 			buildPhases = (
 				00D6446F6E22117899F2EE59 /* [CP] Check Pods Manifest.lock */,
 				05967C7C1A30625700C98C86 /* Sources */,
@@ -3807,7 +3807,7 @@
 			);
 			dependencies = (
 			);
-			name = "ECSDK-alpayOpenUI";
+			name = "ECSDK-alipay";
 			productName = ECSDKDemo_OC;
 			productReference = 05967C801A30625700C98C86 /* pirate.app */;
 			productType = "com.apple.product-type.application";
@@ -3872,7 +3872,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				05967C7F1A30625700C98C86 /* ECSDK-alpayOpenUI */,
+				05967C7F1A30625700C98C86 /* ECSDK-alipay */,
 				84F988021EE947BC00CB9BDA /* ECSDK-JDpay */,
 			);
 		};
@@ -5540,7 +5540,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		05967CA31A30625700C98C86 /* Build configuration list for PBXNativeTarget "ECSDK-alpayOpenUI" */ = {
+		05967CA31A30625700C98C86 /* Build configuration list for PBXNativeTarget "ECSDK-alipay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05967CA41A30625700C98C86 /* Debug */,

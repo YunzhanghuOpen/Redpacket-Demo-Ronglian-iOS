@@ -7,9 +7,9 @@
 		<key>ECSDK-JDpay.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>0</integer>
 		</dict>
-		<key>ECSDK-alpayOpenUI.xcscheme</key>
+		<key>ECSDK-alipay.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
